@@ -33,50 +33,42 @@ class PaymentGatewayTableSeeder extends Seeder
             "options" => [],
         ],
         [
-            "name"    => "InstaPay",
-            "slug"    => "instapay",
+            "name"    => "PayMob",
+            "slug"    => "paymob",
             "misc"    => null,
             "status"  => Activity::ENABLE,
             "options" => [
                 [
-                    "option"     => 'instapay_phone_number',
+                    "option"     => 'paymob_api_key',
                     "type"       => InputType::TEXT,
                     "activities" => ''
                 ],
                 [
-                    "option"     => 'instapay_account_name',
+                    "option"     => 'paymob_integration_id',
                     "type"       => InputType::TEXT,
                     "activities" => ''
                 ],
                 [
-                    "option"     => 'instapay_status',
-                    "value"      => Activity::ENABLE,
+                    "option"     => 'paymob_iframe_id',
+                    "type"       => InputType::TEXT,
+                    "activities" => ''
+                ],
+                [
+                    "option"     => 'paymob_hmac',
+                    "type"       => InputType::TEXT,
+                    "activities" => ''
+                ],
+                [
+                    "option"     => 'paymob_mode',
+                    "value"      => GatewayMode::SANDBOX,
                     "type"       => InputType::SELECT,
                     "activities" => [
-                        Activity::ENABLE  => "enable",
-                        Activity::DISABLE => "disable",
+                        GatewayMode::SANDBOX => "sandbox",
+                        GatewayMode::LIVE    => "live",
                     ]
                 ],
-            ]
-        ],
-        [
-            "name"    => "Mada",
-            "slug"    => "mada",
-            "misc"    => null,
-            "status"  => Activity::ENABLE,
-            "options" => [
                 [
-                    "option"     => 'mada_phone_number',
-                    "type"       => InputType::TEXT,
-                    "activities" => ''
-                ],
-                [
-                    "option"     => 'mada_account_name',
-                    "type"       => InputType::TEXT,
-                    "activities" => ''
-                ],
-                [
-                    "option"     => 'mada_status',
+                    "option"     => 'paymob_status',
                     "value"      => Activity::ENABLE,
                     "type"       => InputType::SELECT,
                     "activities" => [
