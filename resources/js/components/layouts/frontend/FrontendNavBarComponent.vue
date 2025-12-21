@@ -1,7 +1,7 @@
 <template>
     <header :class="isSticky == true
-        ? 'fixed top-0 left-0 z-30 w-full shadow-xs bg-[#0a0a0a]'
-        : 'sm:mb-6 sm:shadow-xs bg-[#0a0a0a]'
+        ? 'fixed top-0 left-0 z-30 w-full shadow-xs bg-[#3D2B1F]'
+        : 'sm:mb-6 sm:shadow-xs bg-[#3D2B1F]'
         ">
 
         <div class="container">
@@ -21,7 +21,7 @@
                     <i class="lab-line-search text-xl"></i>
                 </button>
                 <form @submit.prevent="search()"
-                    class="w-full max-w-md h-10 group rounded-3xl hidden lg:flex items-center gap-2 px-4 border border-gray-700 bg-[#1a1a1a] transition-all duration-300 focus-within:border-primary focus-within:bg-[#0a0a0a]">
+                    class="w-full max-w-md h-10 group rounded-3xl hidden lg:flex items-center gap-2 px-4 border border-[#5C4A32] bg-[#2A1F14] transition-all duration-300 focus-within:border-primary focus-within:bg-[#3D2B1F]">
                     <button class="lab-line-search text-lg flex-shrink-0"></button>
                     <input type="search" v-model="searchProduct" :placeholder="$t('label.search') + '...'"
                         class="w-full h-full" />
@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <div :class="isScrollingUp ? 'hidden lg:block' : 'hidden'" class="border-t border-gray-800">
+        <div :class="isScrollingUp ? 'hidden lg:block' : 'hidden'" class="border-t border-[#5C4A32]">
             <div class="container">
                 <div class="flex items-center justify-between gap-5 h-[74px]">
                     <div class="flex items-center justify-between gap-12">
