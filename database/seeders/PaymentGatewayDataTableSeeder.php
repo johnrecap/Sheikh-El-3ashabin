@@ -49,7 +49,7 @@ class PaymentGatewayDataTableSeeder extends Seeder
                 ],
                 [
                     "option" => 'stripe_secret',
-                                      "value"  => 'REPLACE_ON_SERVER',
+                    "value"  => 'REPLACE_ON_SERVER',
                 ],
                 [
                     "option" => 'stripe_mode',
@@ -382,8 +382,8 @@ class PaymentGatewayDataTableSeeder extends Seeder
                     "value"  => Activity::ENABLE,
                 ],
             ]
-            ],
-            [
+        ],
+        [
             "slug" => "myfatoorah",
             "status" => Activity::ENABLE,
             "options" => [
@@ -431,6 +431,36 @@ class PaymentGatewayDataTableSeeder extends Seeder
                 [
                     "option"     => 'easypaisa_status',
                     "value"      => Activity::ENABLE,
+                ],
+            ]
+        ],
+        [
+            "slug"    => "paymob",
+            "status"  => Activity::ENABLE,
+            "options" => [
+                [
+                    "option" => 'paymob_api_key',
+                    "value"  => '',
+                ],
+                [
+                    "option" => 'paymob_integration_id',
+                    "value"  => '',
+                ],
+                [
+                    "option" => 'paymob_iframe_id',
+                    "value"  => '',
+                ],
+                [
+                    "option" => 'paymob_hmac',
+                    "value"  => '',
+                ],
+                [
+                    "option" => 'paymob_mode',
+                    "value"  => GatewayMode::SANDBOX,
+                ],
+                [
+                    "option" => 'paymob_status',
+                    "value"  => Activity::ENABLE,
                 ],
             ]
         ]

@@ -693,7 +693,13 @@
         "instapay_status": "حالة InstaPay",
         "mada_phone_number": "رقم تليفون Mada",
         "mada_account_name": "اسم حساب Mada",
-        "mada_status": "حالة Mada"
+        "mada_status": "حالة Mada",
+        "paymob_api_key": "مفتاح API باي موب",
+        "paymob_integration_id": "معرّف التكامل باي موب",
+        "paymob_iframe_id": "معرّف الإطار باي موب",
+        "paymob_hmac": "مفتاح HMAC باي موب",
+        "paymob_mode": "وضع باي موب",
+        "paymob_status": "حالة باي موب"
     },
     "button": {
         "add": "إضافة",
