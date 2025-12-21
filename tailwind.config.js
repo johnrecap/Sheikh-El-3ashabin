@@ -35,26 +35,40 @@ module.exports = {
                 'xh': { 'min': '0px', 'max': '767px' },
             },
             colors: {
-                "text": "#475569",          // Slate 600 - Sophisticated text
-                "success": "#10B981",       // Emerald 500 - Modern Green
-                "danger": "#EF4444",        // Red 500 - Modern Red
-                "focus": "#CFB071",         // Gold focus
-                "heading": "#0F172A",       // Slate 900 - Dark elegant headings
-                "paragraph": "#334155",     // Slate 700 - Readable paragraph
-                "primary": "#CFB071",       // MUTED GLAMOUR GOLD
-                "primary-light": "#F9F6F0", // Creamy/Off-white
-                "primary-slate": "#F1F5F9", // Slate 100
-                "secondary": "#020617",     // Rich Black/Night Blue
-                "storeKing-red": "#FF6262",
-                "storeKing-pink": "#FD0063",
-                "storeKing-cyan": "#1CB7CD",
-                "storeKing-gray": "#EFF0F6",
-                "storeKing-green": "#01BE5F",
-                "storeKing-slate": "#D9DBE9",
-                "storeKing-yellow": "#FFBC1F",
-                "storeKing-orange": "#F23E14",
-                "storeKing-purple": "#9353DE",
-                "storeKing-blue": "#0072F4",
+                // Text Colors - Warm earth tones
+                "text": "#5C4033",              // Warm brown for text
+                "success": "#6B8E23",           // Olive green
+                "danger": "#8B4513",            // Saddle brown for errors
+                "focus": "#A0826D",             // Light brown focus
+                "heading": "#3E2723",           // Dark chocolate headings
+                "paragraph": "#6D4C41",         // Medium brown paragraph
+
+                // Primary - Herbal beige/brown palette
+                "primary": "#A0826D",           // Warm tan/brown (main CTA)
+                "primary-light": "#F5F0E8",     // Cream/Off-white background
+                "primary-slate": "#E8DDD0",     // Light beige slate
+
+                // Secondary - Deep brown
+                "secondary": "#5D4037",         // Deep brown (footer, headers)
+
+                // Accent colors for herbal products
+                "herbal-green": "#6B8E23",      // Olive/herb green
+                "herbal-cream": "#F5F0E8",      // Cream
+                "herbal-tan": "#D7B899",        // Light tan
+                "herbal-brown": "#8B6F47",      // Medium brown
+                "herbal-dark": "#3E2723",       // Dark chocolate
+
+                // Keep StoreKing utilities
+                "storeKing-red": "#8B4513",
+                "storeKing-pink": "#D2691E",
+                "storeKing-cyan": "#20B2AA",
+                "storeKing-gray": "#F5F0E8",
+                "storeKing-green": "#6B8E23",
+                "storeKing-slate": "#E8DDD0",
+                "storeKing-yellow": "#DAA520",
+                "storeKing-orange": "#D2691E",
+                "storeKing-purple": "#8B7D6B",
+                "storeKing-blue": "#4682B4",
                 admin: {
                     red: "#FB4E4E",
                     sky: "#007FE3",
