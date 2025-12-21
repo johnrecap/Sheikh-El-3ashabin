@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/*===================================
+            ADMIN SIDE PART START
+====================================*/
+@layer components {
+    /* HEADER */
+    .db-header { @apply fixed top-0 left-0 z-30 w-full p-4 flex items-center justify-between lg:gap-36 bg-white transition }
+    .db-header-left { @apply flex items-center w-full md:gap-36 }
+    .db-header-right { @apply flex-shrink-0 w-fit flex items-center gap-2.5 sm:gap-4 }
+    .db-header-logo { @apply flex-auto w-28 flex-shrink-0 }
+    .db-header-widget { @apply text-sm w-7 h-7 leading-7 sm:text-base sm:w-8 sm:h-8 sm:leading-8 text-center rounded-lg }
+    .db-header-lang { @apply w-4 h-4 rounded-lg mx-auto  }
+    .db-header-widget-badge { @apply absolute -top-2 sm:-top-1.5 -right-1 z-10 w-5 h-5 text-center leading-4 rounded-full text-[10px] border-2 border-white text-white bg-primary }
+    .db-header-profile-group { @apply flex items-center gap-2 }
+    .db-header-profile-group div,
+    .db-header-profile-group i { @apply hidden sm:block }
+    .db-header-profile-title { @apply font-medium capitalize text-sm leading-none mb-1 }
+    .db-header-profile-name { @apply capitalize text-sm leading-none text-heading }
+    .db-header-profile-dropdown { @apply absolute top-11 sm:top-12 right-0 z-20 px-2 py-2.5 rounded-lg border border-solid border-slate-200 bg-white shadow-lg }
+    .db-header-profile-dropdown-menu { @apply flex items-center justify-start gap-2.5 w-full whitespace-nowrap pl-3 pr-8 py-1.5 text-sm rounded-md capitalize transition text-gray-600 hover:bg-gray-100 }
+
+    /* SIDEBAR */
+    .db-sidebar { @apply fixed top-0 ltr:left-0 rtl:right-0 z-[39] w-[260px] p-4 h-screen ltr:-translate-x-[100%] rtl:translate-x-full ltr:lg:translate-x-0 rtl:lg:-translate-x-0 lg:top-16 lg:h-[calc(100vh_-_64px)] overflow-y-auto thin-scrolling ltr:shadow-db-sidebar-right rtl:shadow-db-sidebar-left transition bg-white }
+    .db-sidebar.active { @apply ltr:translate-x-0 rtl:-translate-x-0 ltr:lg:-translate-x-[100%] rtl:lg:translate-x-full shadow-sidebar lg:shadow-none }
+    .db-sidebar-header { @apply flex lg:hidden items-center justify-between mb-8 }
+}
+
+@layer utilities {
+    .transition { @apply transition-all duration-300 ease-linear }
+}
