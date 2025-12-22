@@ -96,23 +96,30 @@ class FrontendOrderService
     {
         try {
             DB::transaction(function () use ($request) {
-                $oldOrder     = Order::where(['user_id' => Auth::user()->id, 'active' => Status::INACTIVE]);
-                $orderReplace = $oldOrder;
-                if (!blank($oldOrder->get())) {
-                    $ids          = $oldOrder->pluck('id');
-                    $stock        = Stock::whereIn('model_id', $ids)->where(['model_type' => Order::class, 'status' => Status::INACTIVE]);
-                    $stockReplace = $stock;
-                    $stock        = $stock->get();
-                    $stockIds     = $stock->pluck('id');
-                    if (!blank($stockIds)) {
-                        StockTax::whereIn('stock_id', $stockIds)?->delete();
+                // Clean up old inactive orders - wrapped in try-catch to handle orphaned references
+                try {
+                    $oldOrder = Order::where(['user_id' => Auth::user()->id, 'active' => Status::INACTIVE]);
+                    $orderReplace = $oldOrder;
+                    if (!blank($oldOrder->get())) {
+                        $ids          = $oldOrder->pluck('id');
+                        $stock        = Stock::whereIn('model_id', $ids)->where(['model_type' => Order::class, 'status' => Status::INACTIVE]);
+                        $stockReplace = $stock;
+                        $stock        = $stock->get();
+                        $stockIds     = $stock->pluck('id');
+                        if (!blank($stockIds)) {
+                            StockTax::whereIn('stock_id', $stockIds)?->delete();
+                        }
+                        $stockReplace?->delete();
+                        OrderAddress::whereIn('order_id', $ids)->where(['user_id' => Auth::user()->id])?->delete();
+                        OrderOutletAddress::whereIn('order_id', $ids)->where(['user_id' => Auth::user()->id])?->delete();
+                        OrderCoupon::whereIn('order_id', $ids)->where(['user_id' => Auth::user()->id])?->delete();
+                        $orderReplace->delete();
                     }
-                    $stockReplace?->delete();
-                    OrderAddress::whereIn('order_id', $ids)->where(['user_id' => Auth::user()->id])?->delete();
-                    OrderOutletAddress::whereIn('order_id', $ids)->where(['user_id' => Auth::user()->id])?->delete();
-                    OrderCoupon::whereIn('order_id', $ids)->where(['user_id' => Auth::user()->id])?->delete();
-                    $orderReplace->delete();
+                } catch (Exception $e) {
+                    // Log cleanup failure but continue with order creation
+                    Log::warning('Old order cleanup failed: ' . $e->getMessage());
                 }
+
 
                 $this->order = Order::create(
                     $request->validated() + [
