@@ -73,6 +73,7 @@
 import moment from "moment";
 import axios from "axios";
 import alertService from "../../../../services/alertService";
+import appService from "../../../../services/appService";
 
 export default {
     name: "BackupComponent",
@@ -108,48 +109,32 @@ export default {
             });
         },
         restoreBackup(backup) {
-            this.$swal({
-                title: this.$t('message.are_you_sure'),
-                text: this.$t('message.restore_warning'),
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: this.$t('button.restore')
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.loading = true;
-                    axios.post('/admin/setting/system-backup/restore', { filename: backup.filename }).then(res => {
-                        this.loading = false;
-                        alertService.success(res.data.message);
-                    }).catch(err => {
-                        this.loading = false;
-                        alertService.error(err.response.data.message);
-                    });
-                }
+            appService.destroyConfirmation().then(() => {
+                this.loading = true;
+                axios.post('/admin/setting/system-backup/restore', { filename: backup.filename }).then(res => {
+                    this.loading = false;
+                    alertService.success(res.data.message || 'Backup restored successfully');
+                }).catch(err => {
+                    this.loading = false;
+                    alertService.error(err.response?.data?.message || 'Restore failed');
+                });
+            }).catch(() => {
+                // User cancelled
             });
         },
         deleteBackup(backup) {
-            this.$swal({
-                title: this.$t('message.are_you_sure'),
-                text: this.$t('message.delete_warning'),
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: this.$t('button.delete')
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.loading = true;
-                    axios.delete(`/admin/setting/system-backup/${backup.filename}`).then(res => {
-                        this.loading = false;
-                        alertService.success(res.data.message);
-                        this.fetchBackups();
-                    }).catch(err => {
-                        this.loading = false;
-                        alertService.error(err.response.data.message);
-                    });
-                }
+            appService.destroyConfirmation().then(() => {
+                this.loading = true;
+                axios.delete(`/admin/setting/system-backup/${backup.filename}`).then(res => {
+                    this.loading = false;
+                    alertService.success(res.data.message || 'Backup deleted successfully');
+                    this.fetchBackups();
+                }).catch(err => {
+                    this.loading = false;
+                    alertService.error(err.response?.data?.message || 'Delete failed');
+                });
+            }).catch(() => {
+                // User cancelled
             });
         },
         downloadBackup(backup) {
