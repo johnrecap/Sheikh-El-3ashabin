@@ -66,7 +66,6 @@ class BackupService
                     'roles' => $this->backupRoles(),
                     'model_has_roles' => $this->backupModelHasRoles(),
                     'settings' => $this->backupSettings(),
-                    'theme_settings' => $this->backupThemeSettings(),
                     'payment_gateways' => $this->backupPaymentGateways(),
                     'sms_gateways' => $this->backupSmsGateways(),
                     'notification_settings' => $this->backupNotificationSettings(),
@@ -137,7 +136,6 @@ class BackupService
 
             // Restore Settings and other configs
             $this->restoreTable('settings', $data['tables']['settings'] ?? []);
-            $this->restoreTable('theme_settings', $data['tables']['theme_settings'] ?? []);
             $this->restoreTable('payment_gateways', $data['tables']['payment_gateways'] ?? []);
             $this->restoreTable('sms_gateways', $data['tables']['sms_gateways'] ?? []);
             $this->restoreTable('notification_settings', $data['tables']['notification_settings'] ?? []);
@@ -272,10 +270,6 @@ class BackupService
         return DB::table('settings')->get()->map(fn($item) => (array)$item)->toArray();
     }
 
-    protected function backupThemeSettings(): array
-    {
-        return DB::table('theme_settings')->get()->map(fn($item) => (array)$item)->toArray();
-    }
     protected function backupPaymentGateways(): array
     {
         return DB::table('payment_gateways')->get()->map(fn($item) => (array)$item)->toArray();
@@ -326,7 +320,6 @@ class BackupService
         Coupon::truncate();
 
         DB::table('settings')->truncate();
-        ThemeSetting::truncate();
         PaymentGateway::truncate();
         SmsGateway::truncate();
         NotificationSetting::truncate();
