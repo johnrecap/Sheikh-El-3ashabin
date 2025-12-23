@@ -699,7 +699,11 @@
         "paymob_iframe_id": "معرّف الإطار باي موب",
         "paymob_hmac": "مفتاح HMAC باي موب",
         "paymob_mode": "وضع باي موب",
-        "paymob_status": "حالة باي موب"
+        "paymob_status": "حالة باي موب",
+        "use_map": "استخدام الخريطة",
+        "manual_entry": "إدخال يدوي",
+        "full_address": "العنوان الكامل",
+        "enter_full_address": "أدخل العنوان الكامل (المنطقة - الشارع - أقرب علامة)"
     },
     "button": {
         "add": "إضافة",

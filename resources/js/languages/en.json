@@ -700,7 +700,11 @@
                 "paymob_iframe_id": "PayMob IFrame ID",
                 "paymob_hmac": "PayMob HMAC Key",
                 "paymob_mode": "PayMob Mode",
-                "paymob_status": "PayMob Status"
+                "paymob_status": "PayMob Status",
+                "use_map": "Use Map",
+                "manual_entry": "Manual Entry",
+                "full_address": "Full Address",
+                "enter_full_address": "Enter full address (Area - Street - Nearest landmark)"
         },
         "button": {
                 "add": "Add",
