@@ -43,9 +43,40 @@
             </div>
             <div class="modal-body">
                 <form @submit.prevent="save">
-                    <MapComponent :key="mapKey" v-if="address.isMap"
+                    <!-- Manual/Map Toggle -->
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b">
+                        <button type="button" 
+                            @click="address.manualMode = false; address.isMap = true"
+                            :class="!address.manualMode ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'"
+                            class="flex-1 py-2 px-4 rounded-lg text-sm font-medium transition">
+                            <i class="lab lab-fill-location mr-2"></i>{{ $t('label.use_map') || 'استخدام الخريطة' }}
+                        </button>
+                        <button type="button" 
+                            @click="address.manualMode = true; address.isMap = false"
+                            :class="address.manualMode ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'"
+                            class="flex-1 py-2 px-4 rounded-lg text-sm font-medium transition">
+                            <i class="fa-solid fa-keyboard mr-2"></i>{{ $t('label.manual_entry') || 'إدخال يدوي' }}
+                        </button>
+                    </div>
+                    
+                    <!-- Map Mode -->
+                    <MapComponent :key="mapKey" v-if="address.isMap && !address.manualMode"
                         :location="{ lat: address.form.latitude, lng: address.form.longitude }" :position="location" />
-                    <div class="flex items-center gap-2 mb-3">
+                    
+                    <!-- Manual Mode -->
+                    <div v-if="address.manualMode" class="mb-4">
+                        <label for="manual-address" class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.full_address') || 'العنوان الكامل' }} *
+                        </label>
+                        <textarea id="manual-address" v-model="address.form.address"
+                            :placeholder="$t('label.enter_full_address') || 'أدخل العنوان الكامل (المنطقة - الشارع - أقرب علامة)'"
+                            v-bind:class="errors.address ? 'invalid border-red-500' : ''"
+                            class="h-20 w-full rounded-lg border py-2 px-3 placeholder:text-xs placeholder:text-[#6E7191] border-[#D9DBE9] resize-none"></textarea>
+                        <small class="db-field-alert text-red-500" v-if="errors.address">{{ errors.address[0] }}</small>
+                    </div>
+                    
+                    <!-- Address Display (Map Mode) -->
+                    <div v-if="!address.manualMode" class="flex items-center gap-2 mb-3">
                         <i class="lab lab-fill-location text-xl text-primary"></i>
                         <span class="text-sm text-heading">{{ address.form.address }}</span>
                     </div>
@@ -154,6 +185,7 @@ export default {
                 status: false,
                 switchLabel: "",
                 isMap: false,
+                manualMode: false,
             },
             activeAddressId: null,
             errors: {},
@@ -203,6 +235,7 @@ export default {
             this.address.status = false;
             this.address.switchLabel = "";
             this.address.isMap = false;
+            this.address.manualMode = false;
         },
         location: function (e) {
             this.address.form.latitude = e.location.lat;
@@ -217,6 +250,17 @@ export default {
             try {
                 const tempId = this.$store.getters["frontendAddress/temp"].temp_id;
                 this.loading.isActive = true;
+                
+                // Set default lat/lng for manual mode
+                if (this.address.manualMode) {
+                    if (!this.address.form.latitude) {
+                        this.address.form.latitude = "0";
+                    }
+                    if (!this.address.form.longitude) {
+                        this.address.form.longitude = "0";
+                    }
+                }
+                
                 this.$store.dispatch("frontendAddress/save", this.address).then((res) => {
                     appService.modalHide('#checkoutAddress');
                     this.loading.isActive = false;
@@ -228,6 +272,7 @@ export default {
                         longitude: "",
                         label: "",
                     };
+                    this.address.manualMode = false;
                     this.errors = {};
                     this.activeAddress(res.data.data);
                 }).catch((err) => {
