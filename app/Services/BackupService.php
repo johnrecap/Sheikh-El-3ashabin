@@ -63,6 +63,8 @@ class BackupService
                     'sliders' => $this->backupSliders(),
                     'pages' => $this->backupPages(),
                     'coupons' => $this->backupCoupons(),
+                    'roles' => $this->backupRoles(),
+                    'model_has_roles' => $this->backupModelHasRoles(),
                     'settings' => $this->backupSettings(),
                     'theme_settings' => $this->backupThemeSettings(),
                     'payment_gateways' => $this->backupPaymentGateways(),
@@ -122,7 +124,11 @@ class BackupService
             $this->restoreTable('products', $data['tables']['products'] ?? []);
             $this->restoreTable('stocks', $data['tables']['stocks'] ?? []);
             $this->restoreTable('product_variations', $data['tables']['product_variations'] ?? []);
+
             $this->restoreTable('users', $data['tables']['users'] ?? []);
+            $this->restoreTable('roles', $data['tables']['roles'] ?? []);
+            $this->restoreTable('model_has_roles', $data['tables']['model_has_roles'] ?? []);
+
             $this->restoreTable('addresses', $data['tables']['addresses'] ?? []);
             $this->restoreTable('orders', $data['tables']['orders'] ?? []);
             $this->restoreTable('sliders', $data['tables']['sliders'] ?? []);
@@ -223,7 +229,19 @@ class BackupService
 
     protected function backupUsers(): array
     {
-        return DB::table('users')->where('role_id', 3)->get()->map(fn($item) => (array)$item)->toArray();
+        // Backup ALL users to ensure full system replication (Admins + Customers)
+        return DB::table('users')->get()->map(fn($item) => (array)$item)->toArray();
+    }
+
+    protected function backupRoles(): array
+    {
+        return DB::table('roles')->get()->map(fn($item) => (array)$item)->toArray();
+    }
+
+    protected function backupModelHasRoles(): array
+    {
+        // This table maps users to roles
+        return DB::table('model_has_roles')->get()->map(fn($item) => (array)$item)->toArray();
     }
 
     protected function backupAddresses(): array
@@ -283,6 +301,12 @@ class BackupService
     protected function truncateTables(): void
     {
         Schema::disableForeignKeyConstraints();
+
+        // Truncate User and Permission related tables
+        DB::table('model_has_roles')->truncate();
+        DB::table('roles')->truncate();
+        DB::table('users')->truncate();
+
         ProductCategory::truncate();
         ProductBrand::truncate();
         Unit::truncate();
@@ -290,12 +314,9 @@ class BackupService
         Product::truncate();
         Stock::truncate();
         ProductVariation::truncate();
-        // User::where('role_id', 3)->delete(); 
-        // Be careful with users. If we truncate, we lose admins if not filtered.
-        // It is safer to delete only restored roles or truncate if we restore ALL users.
-        // For now, let's truncate ONLY if we are sure we are restoring everything or just customers.
-        // Safest approach for replication: Delete only customers.
-        User::where('role_id', 3)->forceDelete();
+
+        // Removed old user logic with role_id, now truncating all users as we backup all of them
+        // User::where('role_id', 3)->forceDelete();
 
         Address::truncate();
         Order::truncate();
