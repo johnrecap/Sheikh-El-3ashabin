@@ -43,9 +43,9 @@
                                     </td>
                                     <td class="p-4 text-right">
                                         <div class="flex items-center justify-end gap-3">
-                                            <a :href="`/api/admin/setting/system-backup/download/${backup.filename}`" target="_blank" class="text-blue-600 hover:text-blue-800" :title="$t('button.download')">
+                                            <button @click="downloadBackup(backup)" class="text-blue-600 hover:text-blue-800" :title="$t('button.download')">
                                                 <i class="fa fa-download"></i>
-                                            </a>
+                                            </button>
                                             <button @click="restoreBackup(backup)" class="text-green-600 hover:text-green-800" :title="$t('button.restore')">
                                                 <i class="fa fa-history"></i>
                                             </button>
@@ -150,6 +150,22 @@ export default {
                         alertService.error(err.response.data.message);
                     });
                 }
+            });
+        },
+        downloadBackup(backup) {
+            axios.get(`/admin/setting/system-backup/download/${backup.filename}`, {
+                responseType: 'blob'
+            }).then(res => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', backup.filename);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+            }).catch(err => {
+                alertService.error(err.response?.data?.message || 'Download failed');
             });
         },
         formatDate(date) {
