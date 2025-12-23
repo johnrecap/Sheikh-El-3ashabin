@@ -653,7 +653,7 @@
         "new_label": "تصنيف جديد",
         "delivery_zone": "منطقة التوصيل",
         "delivery_radius_kilometer": "نطاق التوصيل بالكيلومتر",
-        "delivery_charge_per_kilo": "رسوم التوصيل لكل كيلومتر",
+        "delivery_charge_per_kilo": "رسوم التوصيل",
         "minimum_order_amount": "الحد الأدنى للطلب",
         "back_to_dashboard": "العودة إلى لوحة التحكم",
         "zone_name": "اسم المنطقة",

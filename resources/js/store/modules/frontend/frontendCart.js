@@ -310,18 +310,9 @@ export const frontendCart = {
         },
         deliveryCharge: function (state, payload) {
             if (state.orderType === orderTypeEnum.DELIVERY) {
-                if (Object.keys(state.deliveryZone).length > 0 && Object.keys(state.deliveryAddress).length > 0) {
-                    const lat = parseFloat(state.deliveryAddress.latitude);
-                    const lng = parseFloat(state.deliveryAddress.longitude);
-
-                    // Check if manual address (lat/lng = 0)
-                    if (lat === 0 && lng === 0) {
-                        // For manual addresses, use minimum charge or 0
-                        state.deliveryCharge = parseFloat(state.deliveryZone.delivery_charge_per_kilo) || 0;
-                    } else {
-                        const distance = appService.distance(lat, lng, parseFloat(state.deliveryZone.latitude), parseFloat(state.deliveryZone.longitude));
-                        state.deliveryCharge = (distance * parseFloat(state.deliveryZone.delivery_charge_per_kilo)) || 0;
-                    }
+                if (Object.keys(state.deliveryZone).length > 0) {
+                    // Use flat delivery charge from zone (no distance calculation)
+                    state.deliveryCharge = parseFloat(state.deliveryZone.delivery_charge_per_kilo) || 0;
                 } else {
                     state.deliveryCharge = 0;
                 }

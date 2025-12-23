@@ -653,7 +653,7 @@
                 "new_label": "New Label",
                 "delivery_zone": "Delivery Zone",
                 "delivery_radius_kilometer": "Delivery Radius Kilometer",
-                "delivery_charge_per_kilo": "Delivery Charge Per Kilo",
+                "delivery_charge_per_kilo": "Delivery Charge",
                 "minimum_order_amount": "Minimum Order Amount",
                 "back_to_dashboard": "Back to dashboard",
                 "zone_name": "Zone Name",
