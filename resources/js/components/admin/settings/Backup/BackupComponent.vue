@@ -71,6 +71,7 @@
 
 <script>
 import moment from "moment";
+import axios from "axios";
 import alertService from "../../../../services/alertService";
 
 export default {
