@@ -143,7 +143,21 @@ class BackupService
 
             return ['success' => true];
         } catch (\Exception $e) {
-            DB::rollBack();
+            // Check if there's an active transaction before rolling back
+            try {
+                DB::rollBack();
+            } catch (\Exception $rollbackException) {
+                // Transaction might have been committed or never started
+                Log::warning('Rollback skipped: ' . $rollbackException->getMessage());
+            }
+
+            // Make sure to re-enable foreign key checks
+            try {
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            } catch (\Exception $fkException) {
+                Log::warning('Could not re-enable foreign key checks: ' . $fkException->getMessage());
+            }
+
             Log::error('Restore failed: ' . $e->getMessage());
             return [
                 'success' => false,
@@ -286,37 +300,39 @@ class BackupService
 
     protected function truncateTables(): void
     {
-        Schema::disableForeignKeyConstraints();
+        // Use DELETE instead of TRUNCATE to maintain transaction integrity
+        // TRUNCATE causes implicit commit in MySQL which breaks rollback capability
 
-        // Truncate User and Permission related tables
-        DB::table('model_has_roles')->truncate();
-        DB::table('roles')->truncate();
-        DB::table('users')->truncate();
+        $tables = [
+            'model_has_roles',
+            'roles',
+            'addresses',
+            'orders',
+            'order_addresses',
+            'order_outlet_addresses',
+            'order_coupons',
+            'stocks',
+            'product_variations',
+            'products',
+            'product_categories',
+            'product_brands',
+            'units',
+            'taxes',
+            'sliders',
+            'pages',
+            'coupons',
+            'settings',
+            'payment_gateways',
+            'sms_gateways',
+            'media',
+            'users',
+        ];
 
-        ProductCategory::truncate();
-        ProductBrand::truncate();
-        Unit::truncate();
-        Tax::truncate();
-        Product::truncate();
-        Stock::truncate();
-        ProductVariation::truncate();
-
-        // Removed old user logic with role_id, now truncating all users as we backup all of them
-        // User::where('role_id', 3)->forceDelete();
-
-        Address::truncate();
-        Order::truncate();
-        // No order_products table to truncate
-        Slider::truncate();
-        Page::truncate();
-        Coupon::truncate();
-
-        DB::table('settings')->truncate();
-        PaymentGateway::truncate();
-        SmsGateway::truncate();
-
-        DB::table('media')->truncate();
-        Schema::enableForeignKeyConstraints();
+        foreach ($tables as $table) {
+            if (Schema::hasTable($table)) {
+                DB::table($table)->delete();
+            }
+        }
     }
 
     protected function restoreTable(string $tableName, array $rows): void
