@@ -97,9 +97,20 @@
                 "delivery_boys": "Delivery Boys",
                 "active_orders": "Active Orders",
                 "delivery_zones": "Delivery Zones",
-                "delivered_order_details": "Delivered Order Details"
+                "delivered_order_details": "Delivered Order Details",
+                "backup": "Backup"
+        },
+        "backup": {
+                "info_title": "Backup Info",
+                "info_description": "Create system backups...",
+                "created_success": "Backup created successfully",
+                "deleted_success": "Backup deleted successfully",
+                "restored_success": "Backup restored successfully",
+                "delete_failed": "Delete failed"
         },
         "label": {
+                "filename": "Filename",
+                "tables": "Tables",
                 "license_key": "License Key",
                 "previous": "Previous",
                 "next": "Next",
@@ -799,6 +810,8 @@
                 "submit": "Submit",
                 "decline": "Decline",
                 "send_mail": "Send Mail",
+                "create_backup": "Create Backup",
+                "restore": "Restore",
                 "add_payment": "Add Payment",
                 "view_payments": "View Payments",
                 "go_back": "Go Back",
@@ -829,6 +842,9 @@
                 "something_wrong": "Something Wrong."
         },
         "message": {
+                "are_you_sure": "Are you sure?",
+                "restore_warning": "This will overwrite current data with the backup. This action cannot be undone!",
+                "delete_warning": "This action cannot be undone!",
                 "pagination_label": "Showing {from} to {to} of {total} entries",
                 "continue_shopping": "Sign in to continue shopping",
                 "dont_have_account": "Don’t have an account?",

@@ -54,6 +54,8 @@ import DeliveryZoneComponent from "../../components/admin/settings/DeliveryZone/
 import DeliveryZoneListComponent from "../../components/admin/settings/DeliveryZone/DeliveryZoneListComponent.vue";
 import DeliveryZoneShowComponent from "../../components/admin/settings/DeliveryZone/DeliveryZoneShowComponent.vue";
 
+import BackupComponent from "../../components/admin/settings/Backup/BackupComponent.vue";
+
 export default [
     {
         path: "/admin/settings",
@@ -67,6 +69,17 @@ export default [
             breadcrumb: "settings",
         },
         children: [
+            {
+                path: "system-backup",
+                component: BackupComponent,
+                name: "admin.settings.backup",
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "settings",
+                    breadcrumb: "backup",
+                },
+            },
             {
                 path: "company",
                 component: CompanyComponent,

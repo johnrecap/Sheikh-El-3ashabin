@@ -114,6 +114,10 @@
                 <i class="lab-line-license-code text-sm"></i>
                 {{ $t("menu.license") }}
             </router-link>
+            <router-link :to="{ name: 'admin.settings.backup' }" class="db-tab-btn">
+                <i class="fa fa-database text-sm"></i>
+                {{ $t("menu.backup") }}
+            </router-link>
         </nav>
     </div>
 </template>

@@ -46,6 +46,7 @@ use App\Http\Controllers\Admin\ActiveOrderController;
 use App\Http\Controllers\Admin\CountryCodeController;
 use App\Http\Controllers\Admin\DeliveryBoyController;
 use App\Http\Controllers\Admin\MenuSectionController;
+use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\OnlineOrderController;
 use App\Http\Controllers\Admin\ReturnOrderController;
 use App\Http\Controllers\Admin\SalesReportController;
@@ -184,6 +185,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum'])->group(func
     });
 
     Route::prefix('setting')->name('setting.')->group(function () {
+        Route::prefix('system-backup')->name('backup.')->group(function () {
+            Route::get('/', [BackupController::class, 'index']);
+            Route::post('/', [BackupController::class, 'store']);
+            Route::post('/restore', [BackupController::class, 'restore']);
+            Route::get('/download/{filename}', [BackupController::class, 'download']);
+            Route::delete('/{filename}', [BackupController::class, 'destroy']);
+        });
+
         Route::prefix('company')->name('company.')->group(function () {
             Route::get('/', [CompanyController::class, 'index']);
             Route::match(['put', 'patch'], '/', [CompanyController::class, 'update']);

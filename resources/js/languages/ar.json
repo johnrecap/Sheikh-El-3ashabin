@@ -97,9 +97,20 @@
         "delivery_boys": "أفراد التوصيل",
         "active_orders": "الطلبات النشطة",
         "delivery_zones": "مناطق التوصيل",
-        "delivered_order_details": "تفاصيل الطلبات المسلمة"
+        "delivered_order_details": "تفاصيل الطلبات المسلمة",
+        "backup": "النسخ الاحتياطي"
+    },
+    "backup": {
+        "info_title": "معلومات النسخ الاحتياطي",
+        "info_description": "قم بإنشاء نسخ احتياطية...",
+        "created_success": "تم إنشاء النسخة بنجاح",
+        "deleted_success": "تم الحذف بنجاح",
+        "restored_success": "تمت الاستعادة بنجاح",
+        "delete_failed": "فشل الحذف"
     },
     "label": {
+        "filename": "اسم الملف",
+        "tables": "الجداول",
         "license_key": "مفتاح الترخيص",
         "previous": "السابق",
         "next": "التالي",
@@ -798,6 +809,8 @@
         "submit": "إرسال",
         "decline": "رفض",
         "send_mail": "إرسال بريد",
+        "create_backup": "نسخة جديدة",
+        "restore": "استعادة",
         "add_payment": "إضافة دفعة",
         "view_payments": "عرض المدفوعات",
         "go_back": "العودة",
@@ -827,6 +840,10 @@
         "something_wrong": ".هناك خطأ ما"
     },
     "message": {
+        "are_you_sure": "هل أنت متأكد؟",
+        "restore_warning": "سيقوم هذا باستبدال البيانات الحالية بالنسخة الاحتياطية. لا يمكن التراجع عن هذا الإجراء!",
+        "delete_warning": "لا يمكن التراجع عن هذا الإجراء!",
+        "no_data_found": "لا توجد بيانات",
         "pagination_label": ".عرض {from} إلى {to} من إجمالي العناصر {total}",
         "continue_shopping": ".تسجيل الدخول لمتابعة التسوق",
         "dont_have_account": "ليس لديك حساب؟",
