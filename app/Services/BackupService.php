@@ -22,8 +22,6 @@ use App\Models\Page;
 use App\Models\Coupon;
 use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
-use App\Models\ThemeSetting;
-use App\Models\NotificationSetting;
 
 class BackupService
 {
@@ -68,7 +66,6 @@ class BackupService
                     'settings' => $this->backupSettings(),
                     'payment_gateways' => $this->backupPaymentGateways(),
                     'sms_gateways' => $this->backupSmsGateways(),
-                    'notification_settings' => $this->backupNotificationSettings(),
                     'media' => $this->backupMedia(),
                 ]
             ];
@@ -138,7 +135,6 @@ class BackupService
             $this->restoreTable('settings', $data['tables']['settings'] ?? []);
             $this->restoreTable('payment_gateways', $data['tables']['payment_gateways'] ?? []);
             $this->restoreTable('sms_gateways', $data['tables']['sms_gateways'] ?? []);
-            $this->restoreTable('notification_settings', $data['tables']['notification_settings'] ?? []);
 
             $this->restoreTable('media', $data['tables']['media'] ?? []);
 
@@ -278,10 +274,6 @@ class BackupService
     {
         return DB::table('sms_gateways')->get()->map(fn($item) => (array)$item)->toArray();
     }
-    protected function backupNotificationSettings(): array
-    {
-        return DB::table('notification_settings')->get()->map(fn($item) => (array)$item)->toArray();
-    }
 
     protected function backupMedia(): array
     {
@@ -322,7 +314,6 @@ class BackupService
         DB::table('settings')->truncate();
         PaymentGateway::truncate();
         SmsGateway::truncate();
-        NotificationSetting::truncate();
 
         DB::table('media')->truncate();
         Schema::enableForeignKeyConstraints();
