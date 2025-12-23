@@ -126,6 +126,15 @@ class DeliveryZoneService
         try {
             if ($request->latitude && $request->longitude) {
                 $deliveryZones = DeliveryZone::where('status', Status::ACTIVE)->get();
+
+                // Skip distance check for manual addresses (lat=0 or lng=0 or very close to 0)
+                $isManualAddress = (abs(floatval($request->latitude)) < 0.001 && abs(floatval($request->longitude)) < 0.001);
+
+                if ($isManualAddress && $deliveryZones->count() > 0) {
+                    // Return first active delivery zone for manual addresses
+                    return $deliveryZones->first();
+                }
+
                 foreach ($deliveryZones as $zone) {
                     $distance = $this->distanceCalculation($request->latitude, $request->longitude, $zone->latitude, $zone->longitude);
                     if ($distance <= $zone->delivery_radius_kilometer) {

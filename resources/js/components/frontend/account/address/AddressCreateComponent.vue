@@ -177,7 +177,7 @@ export default {
                 const tempId = this.$store.getters["frontendAddress/temp"].temp_id;
                 this.loading.isActive = true;
                 
-                // Set default lat/lng for manual mode
+                // Set default lat/lng for manual mode (0,0 signals manual entry to backend)
                 if (this.manualMode) {
                     if (!this.props.form.latitude) {
                         this.props.form.latitude = "0";
