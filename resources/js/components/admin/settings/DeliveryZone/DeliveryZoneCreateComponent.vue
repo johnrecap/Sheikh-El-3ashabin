@@ -192,20 +192,22 @@ export default {
             composables.closeModal('modal');
             this.$store.dispatch("deliveryZone/reset").then().catch();
             this.errors = {};
-            this.$props.props.form = {
-                name: "",
-                governorate_name: "",
-                email: "",
-                phone: "",
-                latitude: "",
-                longitude: "",
-                delivery_radius_kilometer: "",
-                delivery_charge_per_kilo: "",
-                delivery_fee: "",
-                minimum_order_amount: "",
-                address: "",
-                status: statusEnum.ACTIVE,
-            };
+            if (this.$props && this.$props.props) {
+                this.$props.props.form = {
+                    name: "",
+                    governorate_name: "",
+                    email: "",
+                    phone: "",
+                    latitude: "",
+                    longitude: "",
+                    delivery_radius_kilometer: "",
+                    delivery_charge_per_kilo: "",
+                    delivery_fee: "",
+                    minimum_order_amount: "",
+                    address: "",
+                    status: statusEnum.ACTIVE,
+                };
+            }
         },
         phoneNumber(e) {
             return appService.phoneNumber(e);
@@ -221,20 +223,22 @@ export default {
                         tempId === null ? 0 : 1,
                         this.$t("menu.delivery_zones")
                     );
-                    this.props.form = {
-                        name: "",
-                        governorate_name: "",
-                        email: "",
-                        phone: "",
-                        latitude: "",
-                        longitude: "",
-                        delivery_radius_kilometer: "",
-                        delivery_charge_per_kilo: "",
-                        delivery_fee: "",
-                        minimum_order_amount: "",
-                        address: "",
-                        status: statusEnum.ACTIVE,
-                    };
+                    if (this.props && this.props.form) {
+                        this.props.form = {
+                            name: "",
+                            governorate_name: "",
+                            email: "",
+                            phone: "",
+                            latitude: "",
+                            longitude: "",
+                            delivery_radius_kilometer: "",
+                            delivery_charge_per_kilo: "",
+                            delivery_fee: "",
+                            minimum_order_amount: "",
+                            address: "",
+                            status: statusEnum.ACTIVE,
+                        };
+                    }
                     this.errors = {};
                 }).catch((err) => {
                     this.loading.isActive = false;
