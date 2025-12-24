@@ -87,6 +87,7 @@ return [
         'add_new_address'            => 'إضافة عنوان جديد',
         'address'                    => 'العنوان',
         'confirm_location'           => 'تأكيد الموقع',
+        'enter_phone'                => 'أدخل رقم الهاتف',
         // InstaPay Labels
         'instapay_api_key'           => 'مفتاح API لـ InstaPay',
         'instapay_merchant_code'     => 'كود التاجر InstaPay',

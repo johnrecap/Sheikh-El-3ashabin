@@ -86,7 +86,8 @@ return [
         'add_label'                  => 'Add Label',
         'add_new_address'            => 'Add New Address',
         'address'                    => 'Address',
-        'confirm_location'           => 'Confirm Location'
+        'confirm_location'           => 'Confirm Location',
+        'enter_phone'                => 'Enter phone number',
     ],
     'message' => [
         'validation_error'                 => 'Validation Error.',

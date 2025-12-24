@@ -114,6 +114,20 @@
                             class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
                     </div>
 
+                    <!-- حقل الهاتف -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.phone') }} *
+                        </label>
+                        <input type="text" v-model="address.form.phone"
+                            :placeholder="$t('label.enter_phone')"
+                            :class="errors.phone ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.phone">
+                            {{ errors.phone[0] }}
+                        </small>
+                    </div>
+
                     <!-- اختيار التسمية (منزل/عمل/أخرى) -->
                     <div class="mb-6">
                         <h3 class="capitalize font-medium mb-2">{{ $t('label.add_label') }}</h3>
@@ -201,6 +215,7 @@ export default {
                     street: "",
                     building_number: "",
                     apartment: "",
+                    phone: "",
                     label: "",
                 },
                 search: {
@@ -283,6 +298,7 @@ export default {
                 street: "",
                 building_number: "",
                 apartment: "",
+                phone: "",
                 label: "",
             };
             this.address.status = false;
@@ -307,6 +323,7 @@ export default {
                         street: "",
                         building_number: "",
                         apartment: "",
+                        phone: "",
                         label: "",
                     };
                     this.errors = {};
@@ -331,6 +348,7 @@ export default {
                     street: address.street,
                     building_number: address.building_number,
                     apartment: address.apartment,
+                    phone: address.phone,
                     label: address.label,
                 };
                 if (this.address.form.label === this.$t("label.home")) {

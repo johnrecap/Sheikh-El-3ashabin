@@ -65,7 +65,7 @@
                         </div>
 
                         <!-- حقل الشقة/الطابق -->
-                        <div class="form-col-12">
+                        <div class="form-col-12 sm:form-col-6">
                             <label for="apartment" class="db-field-title">
                                 {{ $t("label.apartment") }}
                             </label>
@@ -73,6 +73,18 @@
                                 type="text" id="apartment" class="db-field-control" />
                             <small class="db-field-alert" v-if="errors.apartment">
                                 {{ errors.apartment[0] }}
+                            </small>
+                        </div>
+
+                        <!-- حقل الهاتف -->
+                        <div class="form-col-12 sm:form-col-6">
+                            <label for="phone" class="db-field-title required">
+                                {{ $t("label.phone") }}
+                            </label>
+                            <input v-model="props.form.phone" v-bind:class="errors.phone ? 'invalid' : ''"
+                                type="text" id="phone" class="db-field-control" />
+                            <small class="db-field-alert" v-if="errors.phone">
+                                {{ errors.phone[0] }}
                             </small>
                         </div>
 
@@ -222,6 +234,7 @@ export default {
                 street: "",
                 building_number: "",
                 apartment: "",
+                phone: "",
                 label: "",
             };
             this.$props.props.status = false;
@@ -247,6 +260,7 @@ export default {
                             street: "",
                             building_number: "",
                             apartment: "",
+                            phone: "",
                             label: "",
                         };
                         this.props.status = false;
