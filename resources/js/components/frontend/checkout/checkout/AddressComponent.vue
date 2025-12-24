@@ -10,7 +10,7 @@
                     <i class="lab-fill-edit"></i>
                     <span class="text-sm font-medium capitalize whitespace-nowrap">{{ $t('button.edit') }}</span>
                 </button>
-                <button data-modal="#checkoutAddress" @click="add" v-on:click="this.address.isMap = true" type="button"
+                <button data-modal="#checkoutAddress" @click="add" type="button"
                     class="px-3 h-8 leading-8 rounded-full flex items-center gap-2 bg-primary/10 text-primary">
                     <i class="lab-fill-circle-plus"></i>
                     <span class="text-sm font-medium capitalize whitespace-nowrap">{{ $t('button.add_new') }}</span>
@@ -26,9 +26,11 @@
                     <h3 class="text-sm font-medium capitalize whitespace-nowrap overflow-hidden text-ellipsis">
                         {{ address.label }} </h3>
                 </div>
-                <p class="text-sm leading-6">
-                    {{ address.apartment ? address.apartment + ', ' : '' }}
-                    {{ address.address }}
+                <p class="text-sm leading-6 text-gray-700">
+                    {{ address.full_address }}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">
+                    {{ address.governorate }} - {{ address.city }}
                 </p>
             </div>
         </div>
@@ -43,50 +45,76 @@
             </div>
             <div class="modal-body">
                 <form @submit.prevent="save">
-                    <!-- Manual/Map Toggle -->
-                    <div class="flex items-center gap-3 mb-4 pb-3 border-b">
-                        <button type="button" 
-                            @click="address.manualMode = false; address.isMap = true"
-                            :class="!address.manualMode ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'"
-                            class="flex-1 py-2 px-4 rounded-lg text-sm font-medium transition">
-                            <i class="lab lab-fill-location mr-2"></i>{{ $t('label.use_map') || 'استخدام الخريطة' }}
-                        </button>
-                        <button type="button" 
-                            @click="address.manualMode = true; address.isMap = false"
-                            :class="address.manualMode ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'"
-                            class="flex-1 py-2 px-4 rounded-lg text-sm font-medium transition">
-                            <i class="fa-solid fa-keyboard mr-2"></i>{{ $t('label.manual_entry') || 'إدخال يدوي' }}
-                        </button>
-                    </div>
                     
-                    <!-- Map Mode -->
-                    <MapComponent :key="mapKey" v-if="address.isMap && !address.manualMode"
-                        :location="{ lat: address.form.latitude, lng: address.form.longitude }" :position="location" />
-                    
-                    <!-- Manual Mode -->
-                    <div v-if="address.manualMode" class="mb-4">
-                        <label for="manual-address" class="text-xs leading-6 capitalize mb-1 text-heading block">
-                            {{ $t('label.full_address') || 'العنوان الكامل' }} *
+                    <!-- حقل المحافظة -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.governorate') }} *
                         </label>
-                        <textarea id="manual-address" v-model="address.form.address"
-                            :placeholder="$t('label.enter_full_address') || 'أدخل العنوان الكامل (المنطقة - الشارع - أقرب علامة)'"
-                            v-bind:class="errors.address ? 'invalid border-red-500' : ''"
-                            class="h-20 w-full rounded-lg border py-2 px-3 placeholder:text-xs placeholder:text-[#6E7191] border-[#D9DBE9] resize-none"></textarea>
-                        <small class="db-field-alert text-red-500" v-if="errors.address">{{ errors.address[0] }}</small>
+                        <select v-model="address.form.governorate"
+                            :class="errors.governorate ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 border-[#D9DBE9]">
+                            <option value="">{{ $t('label.select_governorate') }}</option>
+                            <option v-for="gov in governorates" :key="gov" :value="gov">{{ gov }}</option>
+                        </select>
+                        <small class="db-field-alert text-red-500" v-if="errors.governorate">
+                            {{ errors.governorate[0] }}
+                        </small>
                     </div>
-                    
-                    <!-- Address Display (Map Mode) -->
-                    <div v-if="!address.manualMode" class="flex items-center gap-2 mb-3">
-                        <i class="lab lab-fill-location text-xl text-primary"></i>
-                        <span class="text-sm text-heading">{{ address.form.address }}</span>
+
+                    <!-- حقل المدينة/المركز -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.city') }} *
+                        </label>
+                        <input type="text" v-model="address.form.city"
+                            :placeholder="$t('label.enter_city')"
+                            :class="errors.city ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.city">
+                            {{ errors.city[0] }}
+                        </small>
                     </div>
+
+                    <!-- حقل الشارع -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.street') }}
+                        </label>
+                        <input type="text" v-model="address.form.street"
+                            :placeholder="$t('label.enter_street')"
+                            :class="errors.street ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.street">
+                            {{ errors.street[0] }}
+                        </small>
+                    </div>
+
+                    <!-- حقل رقم البيت/العمارة -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.building_number') }}
+                        </label>
+                        <input type="text" v-model="address.form.building_number"
+                            :placeholder="$t('label.enter_building_number')"
+                            :class="errors.building_number ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.building_number">
+                            {{ errors.building_number[0] }}
+                        </small>
+                    </div>
+
+                    <!-- حقل الشقة/الطابق -->
                     <div class="mb-3">
-                        <label for="apartment" class="text-xs leading-6 capitalize mb-1 text-heading">{{
-                            $t('label.apartment_and_flat')
-                            }}</label>
-                        <textarea id="apartment" v-model="address.form.apartment"
-                            class="h-12 w-full rounded-lg border py-1.5 px-2 placeholder:text-[10px] placeholder:text-[#6E7191] border-[#D9DBE9]"></textarea>
+                        <label for="apartment" class="text-xs leading-6 capitalize mb-1 text-heading">
+                            {{ $t('label.apartment_and_flat') }}
+                        </label>
+                        <input type="text" id="apartment" v-model="address.form.apartment"
+                            :placeholder="$t('label.enter_apartment')"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
                     </div>
+
+                    <!-- اختيار التسمية (منزل/عمل/أخرى) -->
                     <div class="mb-6">
                         <h3 class="capitalize font-medium mb-2">{{ $t('label.add_label') }}</h3>
                         <nav class="flex flex-wrap gap-3 active-group">
@@ -96,9 +124,9 @@
                                 :value="labelEnum.HOME" type="button"
                                 class="flex items-center gap-2 rounded-lg p-4 border bg-[#F7F7FC] border-[#F7F7FC]">
                                 <i class="lab lab-fill-home text-base leading-none"></i>
-                                <span class="text-sm capitalize font-medium leading-none text-heading">{{
-                                    $t('label.home')
-                                    }}</span>
+                                <span class="text-sm capitalize font-medium leading-none text-heading">
+                                    {{ $t('label.home') }}
+                                </span>
                             </button>
                             <button @click="changeSwitchLabel(labelEnum.WORK)"
                                 :class="address.switchLabel === labelEnum.WORK ? 'active' : ''"
@@ -116,14 +144,14 @@
                                 :value="labelEnum.OTHER" type="button"
                                 class="flex items-center gap-2 rounded-lg p-4 border bg-[#F7F7FC] border-[#F7F7FC]">
                                 <i class="lab lab-more-square text-base leading-none"></i>
-                                <span class="text-sm capitalize font-medium leading-none text-heading">{{
-                                    $t('label.other')
-                                    }}</span>
+                                <span class="text-sm capitalize font-medium leading-none text-heading">
+                                    {{ $t('label.other') }}
+                                </span>
                             </button>
                         </nav>
-                        <small class="db-field-alert" v-if="errors.label && address.switchLabel !== labelEnum.OTHER">{{
-                            errors.label[0]
-                            }}</small>
+                        <small class="db-field-alert" v-if="errors.label && address.switchLabel !== labelEnum.OTHER">
+                            {{ errors.label[0] }}
+                        </small>
                         <div v-if="address.status" :class="!address.status ? 'h-0' : ''"
                             class="overflow-hidden transition">
                             <input type="text" :placeholder="$t('label.type_label_name')" v-model="address.form.label"
@@ -149,12 +177,11 @@ import labelEnum from "../../../../enums/modules/labelEnum";
 import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
 import LoadingComponent from "../../components/LoadingComponent.vue";
-import MapComponent from "../../components/MapComponent.vue";
 
 
 export default {
     name: "AddressComponent",
-    components: { LoadingComponent, MapComponent },
+    components: { LoadingComponent },
     props: {
         "show": { type: Boolean, Default: false },
         "selectedAddress": { type: Object },
@@ -165,30 +192,56 @@ export default {
             loading: {
                 isActive: false
             },
-            mapKey: "create-update",
             orderTypeEnum: orderTypeEnum,
             labelEnum: labelEnum,
             address: {
                 form: {
-                    address: "",
+                    governorate: "",
+                    city: "",
+                    street: "",
+                    building_number: "",
                     apartment: "",
-                    latitude: "",
-                    longitude: "",
                     label: "",
                 },
                 search: {
                     paginate: 0,
                     order_column: "id",
                     order_type: "asc",
-
                 },
                 status: false,
                 switchLabel: "",
-                isMap: false,
-                manualMode: false,
             },
             activeAddressId: null,
             errors: {},
+            // قائمة المحافظات المصرية
+            governorates: [
+                'القاهرة',
+                'الجيزة',
+                'الإسكندرية',
+                'الدقهلية',
+                'البحيرة',
+                'الفيوم',
+                'الغربية',
+                'الإسماعيلية',
+                'المنوفية',
+                'المنيا',
+                'القليوبية',
+                'الوادي الجديد',
+                'الشرقية',
+                'سوهاج',
+                'أسوان',
+                'أسيوط',
+                'بني سويف',
+                'بورسعيد',
+                'دمياط',
+                'الأقصر',
+                'قنا',
+                'شمال سيناء',
+                'جنوب سيناء',
+                'كفر الشيخ',
+                'مطروح',
+                'البحر الأحمر'
+            ]
         }
     },
     computed: {
@@ -215,7 +268,6 @@ export default {
     },
     methods: {
         add: function () {
-            this.address.isMap = true;
             appService.modalShow("#checkoutAddress");
         },
         changeSwitchLabel: function (id) {
@@ -226,21 +278,15 @@ export default {
             this.$store.dispatch("frontendAddress/reset").then().catch();
             this.errors = {};
             this.address.form = {
-                address: "",
+                governorate: "",
+                city: "",
+                street: "",
+                building_number: "",
                 apartment: "",
-                latitude: "",
-                longitude: "",
                 label: "",
             };
             this.address.status = false;
             this.address.switchLabel = "";
-            this.address.isMap = false;
-            this.address.manualMode = false;
-        },
-        location: function (e) {
-            this.address.form.latitude = e.location.lat;
-            this.address.form.longitude = e.location.lng;
-            this.address.form.address = e.address;
         },
         activeAddress: function (address) {
             this.activeAddressId = address.id;
@@ -251,28 +297,18 @@ export default {
                 const tempId = this.$store.getters["frontendAddress/temp"].temp_id;
                 this.loading.isActive = true;
                 
-                // Set default lat/lng for manual mode (0,0 signals manual entry to backend)
-                if (this.address.manualMode) {
-                    if (!this.address.form.latitude) {
-                        this.address.form.latitude = "0";
-                    }
-                    if (!this.address.form.longitude) {
-                        this.address.form.longitude = "0";
-                    }
-                }
-                
                 this.$store.dispatch("frontendAddress/save", this.address).then((res) => {
                     appService.modalHide('#checkoutAddress');
                     this.loading.isActive = false;
                     alertService.successFlip(tempId === null ? 0 : 1, this.$t("label.address"));
                     this.address.form = {
-                        address: "",
+                        governorate: "",
+                        city: "",
+                        street: "",
+                        building_number: "",
                         apartment: "",
-                        latitude: "",
-                        longitude: "",
                         label: "",
                     };
-                    this.address.manualMode = false;
                     this.errors = {};
                     this.activeAddress(res.data.data);
                 }).catch((err) => {
@@ -289,14 +325,13 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch("frontendAddress/edit", address.id).then((res) => {
                 this.loading.isActive = false;
-                this.address.isMap = true;
                 this.address.form = {
-                    address: address.address,
+                    governorate: address.governorate,
+                    city: address.city,
+                    street: address.street,
+                    building_number: address.building_number,
                     apartment: address.apartment,
-                    latitude: address.latitude,
-                    longitude: address.longitude,
                     label: address.label,
-
                 };
                 if (this.address.form.label === this.$t("label.home")) {
                     this.address.status = false;

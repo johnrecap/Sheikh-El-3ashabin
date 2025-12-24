@@ -1,6 +1,6 @@
 <template>
     <LoadingComponent :props="loading" />
-    <button data-modal="#address"  @click="add" v-on:click="this.props.isMap = true" type="button"
+    <button data-modal="#address" @click="add" type="button"
         class="w-full rounded-2xl py-10 flex items-center justify-center gap-2.5 text-primary bg-[#E7FFF3]">
         <i class="lab-fill-circle-plus text-lg"></i>
         <span class="text-lg font-semibold capitalize">{{ addButton.title }}</span>
@@ -15,50 +15,76 @@
             </div>
             <div class="modal-body">
                 <form @submit.prevent="save">
-                    <!-- Manual/Map Toggle -->
-                    <div class="flex items-center gap-3 mb-4 pb-3 border-b">
-                        <button type="button" 
-                            @click="manualMode = false; props.isMap = true"
-                            :class="!manualMode ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'"
-                            class="flex-1 py-2 px-4 rounded-lg text-sm font-medium transition">
-                            <i class="lab lab-fill-location mr-2"></i>{{ $t('label.use_map') || 'استخدام الخريطة' }}
-                        </button>
-                        <button type="button" 
-                            @click="manualMode = true; props.isMap = false"
-                            :class="manualMode ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'"
-                            class="flex-1 py-2 px-4 rounded-lg text-sm font-medium transition">
-                            <i class="fa-solid fa-keyboard mr-2"></i>{{ $t('label.manual_entry') || 'إدخال يدوي' }}
-                        </button>
-                    </div>
                     
-                    <!-- Map Mode -->
-                    <MapComponent :key="mapKey" v-if="props.isMap && !manualMode"
-                        :location="{ lat: props.form.latitude, lng: props.form.longitude }" :position="location" />
-                    
-                    <!-- Manual Mode -->
-                    <div v-if="manualMode" class="mb-4">
-                        <label for="manual-address" class="text-xs leading-6 capitalize mb-1 text-heading block">
-                            {{ $t('label.full_address') || 'العنوان الكامل' }} *
+                    <!-- حقل المحافظة -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.governorate') }} *
                         </label>
-                        <textarea id="manual-address" v-model="props.form.address"
-                            :placeholder="$t('label.enter_full_address') || 'أدخل العنوان الكامل (المنطقة - الشارع - أقرب علامة)'"
-                            v-bind:class="errors.address ? 'invalid border-red-500' : ''"
-                            class="h-20 w-full rounded-lg border py-2 px-3 placeholder:text-xs placeholder:text-[#6E7191] border-[#D9DBE9] resize-none"></textarea>
-                        <small class="db-field-alert text-red-500" v-if="errors.address">{{ errors.address[0] }}</small>
+                        <select v-model="props.form.governorate"
+                            :class="errors.governorate ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 border-[#D9DBE9]">
+                            <option value="">{{ $t('label.select_governorate') }}</option>
+                            <option v-for="gov in governorates" :key="gov" :value="gov">{{ gov }}</option>
+                        </select>
+                        <small class="db-field-alert text-red-500" v-if="errors.governorate">
+                            {{ errors.governorate[0] }}
+                        </small>
                     </div>
-                    
-                    <!-- Address Display (Map Mode) -->
-                    <div v-if="!manualMode" class="flex items-center gap-2 mb-3">
-                        <i class="lab lab-fill-location text-xl text-primary"></i>
-                        <span class="text-sm text-heading">{{ props.form.address }}</span>
+
+                    <!-- حقل المدينة/المركز -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.city') }} *
+                        </label>
+                        <input type="text" v-model="props.form.city"
+                            :placeholder="$t('label.enter_city')"
+                            :class="errors.city ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.city">
+                            {{ errors.city[0] }}
+                        </small>
                     </div>
+
+                    <!-- حقل الشارع -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.street') }}
+                        </label>
+                        <input type="text" v-model="props.form.street"
+                            :placeholder="$t('label.enter_street')"
+                            :class="errors.street ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.street">
+                            {{ errors.street[0] }}
+                        </small>
+                    </div>
+
+                    <!-- حقل رقم البيت/العمارة -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.building_number') }}
+                        </label>
+                        <input type="text" v-model="props.form.building_number"
+                            :placeholder="$t('label.enter_building_number')"
+                            :class="errors.building_number ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.building_number">
+                            {{ errors.building_number[0] }}
+                        </small>
+                    </div>
+
+                    <!-- حقل الشقة/الطابق -->
                     <div class="mb-3">
-                        <label for="apartment" class="text-xs leading-6 capitalize mb-1 text-heading">{{
-                            $t('label.apartment_and_flat')
-                        }}</label>
-                        <textarea id="apartment" v-model="props.form.apartment"
-                            class="h-12 w-full rounded-lg border py-1.5 px-2 placeholder:text-[10px] placeholder:text-[#6E7191] border-[#D9DBE9]"></textarea>
+                        <label for="apartment" class="text-xs leading-6 capitalize mb-1 text-heading">
+                            {{ $t('label.apartment_and_flat') }}
+                        </label>
+                        <input type="text" id="apartment" v-model="props.form.apartment"
+                            :placeholder="$t('label.enter_apartment')"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
                     </div>
+
+                    <!-- اختيار التسمية (منزل/عمل/أخرى) -->
                     <div class="mb-6">
                         <h3 class="capitalize font-medium mb-2">{{ $t('label.add_label') }}</h3>
                         <nav class="flex flex-wrap gap-3 active-group">
@@ -68,9 +94,9 @@
                                 :value="labelEnum.HOME" type="button"
                                 class="flex items-center gap-2 rounded-lg p-4 border bg-[#F7F7FC] border-[#F7F7FC]">
                                 <i class="lab lab-fill-home text-base leading-none"></i>
-                                <span class="text-sm capitalize font-medium leading-none text-heading">{{
-                                    $t('label.home')
-                                }}</span>
+                                <span class="text-sm capitalize font-medium leading-none text-heading">
+                                    {{ $t('label.home') }}
+                                </span>
                             </button>
                             <button @click="changeSwitchLabel(labelEnum.WORK)"
                                 :class="props.switchLabel === labelEnum.WORK ? 'active' : ''"
@@ -88,14 +114,14 @@
                                 :value="labelEnum.OTHER" type="button"
                                 class="flex items-center gap-2 rounded-lg p-4 border bg-[#F7F7FC] border-[#F7F7FC]">
                                 <i class="lab lab-more-square text-base leading-none"></i>
-                                <span class="text-sm capitalize font-medium leading-none text-heading">{{
-                                    $t('label.other')
-                                }}</span>
+                                <span class="text-sm capitalize font-medium leading-none text-heading">
+                                    {{ $t('label.other') }}
+                                </span>
                             </button>
                         </nav>
-                        <small class="db-field-alert" v-if="errors.label && props.switchLabel !== labelEnum.OTHER">{{
-                            errors.label[0]
-                        }}</small>
+                        <small class="db-field-alert" v-if="errors.label && props.switchLabel !== labelEnum.OTHER">
+                            {{ errors.label[0] }}
+                        </small>
                         <div v-if="props.status" :class="!props.status ? 'h-0' : ''" class="overflow-hidden transition">
                             <input type="text" :placeholder="$t('label.type_label_name')" v-model="props.form.label"
                                 v-bind:class="errors.label ? 'invalid' : ''"
@@ -113,16 +139,14 @@
 </template>
 
 <script>
-import AddressCreateModalComponent from "../../components/buttons/AddressCreateModalComponent.vue";
 import labelEnum from "../../../../enums/modules/labelEnum";
-import MapComponent from "../../components/MapComponent.vue";
 import appService from "../../../../services/appService";
 import alertService from "../../../../services/alertService";
 import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     name: "AddressComponent",
-    components: { AddressCreateModalComponent, MapComponent, LoadingComponent },
+    components: { LoadingComponent },
     props: {
         props: Object,
         getLocation: Function
@@ -132,11 +156,38 @@ export default {
             loading: {
                 isActive: false,
             },
-            mapKey: "create-update",
             labelEnum: labelEnum,
             switchLabel: "",
-            manualMode: false,
             errors: {},
+            // قائمة المحافظات المصرية
+            governorates: [
+                'القاهرة',
+                'الجيزة',
+                'الإسكندرية',
+                'الدقهلية',
+                'البحيرة',
+                'الفيوم',
+                'الغربية',
+                'الإسماعيلية',
+                'المنوفية',
+                'المنيا',
+                'القليوبية',
+                'الوادي الجديد',
+                'الشرقية',
+                'سوهاج',
+                'أسوان',
+                'أسيوط',
+                'بني سويف',
+                'بورسعيد',
+                'دمياط',
+                'الأقصر',
+                'قنا',
+                'شمال سيناء',
+                'جنوب سيناء',
+                'كفر الشيخ',
+                'مطروح',
+                'البحر الأحمر'
+            ]
         }
     },
     computed: {
@@ -151,41 +202,25 @@ export default {
         changeSwitchLabel: function (id) {
             this.props.switchLabel = id;
         },
-        location: function (e) {
-            this.props.form.latitude = e.location.lat;
-            this.props.form.longitude = e.location.lng;
-            this.props.form.address = e.address;
-        },
         reset: function () {
             appService.modalHide();
             this.$store.dispatch("frontendAddress/reset").then().catch();
             this.errors = {};
-            this.manualMode = false;
             this.$props.props.form = {
-                address: "",
+                governorate: "",
+                city: "",
+                street: "",
+                building_number: "",
                 apartment: "",
-                latitude: "",
-                longitude: "",
                 label: "",
             };
             this.$props.props.status = false;
             this.$props.props.switchLabel = "";
-            this.$props.props.isMap = false;
         },
         save: function () {
             try {
                 const tempId = this.$store.getters["frontendAddress/temp"].temp_id;
                 this.loading.isActive = true;
-                
-                // Set default lat/lng for manual mode (0,0 signals manual entry to backend)
-                if (this.manualMode) {
-                    if (!this.props.form.latitude) {
-                        this.props.form.latitude = "0";
-                    }
-                    if (!this.props.form.longitude) {
-                        this.props.form.longitude = "0";
-                    }
-                }
                 
                 this.$store.dispatch("frontendAddress/save", this.props).then((res) => {
                     this.getLocation(res.data.data);
@@ -193,16 +228,15 @@ export default {
                     this.loading.isActive = false;
                     alertService.successFlip(tempId === null ? 0 : 1, this.$t("label.address"));
                     this.props.form = {
-                        address: "",
+                        governorate: "",
+                        city: "",
+                        street: "",
+                        building_number: "",
                         apartment: "",
-                        latitude: "",
-                        longitude: "",
                         label: "",
                     };
-                    this.props.isMap = false;
                     this.props.status = false;
                     this.props.switchLabel = "";
-                    this.manualMode = false;
                     this.errors = {};
                 }).catch((err) => {
                     this.loading.isActive = false;

@@ -13,31 +13,17 @@
             <table class="db-table stripe">
                 <thead class="db-table-head">
                     <tr class="db-table-head-tr">
-                        <th class="db-table-head-th">
-                            {{ $t("label.label") }}
-                        </th>
-                        <th class="db-table-head-th">
-                            {{ $t("label.address") }}
-                        </th>
-                        <th class="db-table-head-th">
-                            {{ $t("label.apartment") }}
-                        </th>
-                        <th class="db-table-head-th">
-                            {{ $t("label.action") }}
-                        </th>
+                        <th class="db-table-head-th">{{ $t("label.label") }}</th>
+                        <th class="db-table-head-th">{{ $t("label.full_address") }}</th>
+                        <th class="db-table-head-th">{{ $t("label.governorate") }} / {{ $t("label.city") }}</th>
+                        <th class="db-table-head-th">{{ $t("label.action") }}</th>
                     </tr>
                 </thead>
                 <tbody class="db-table-body" v-if="addresses.length > 0">
                     <tr class="db-table-body-tr" v-for="address in addresses" :key="address">
-                        <td class="db-table-body-td">
-                            {{ address.label }}
-                        </td>
-                        <td class="db-table-body-td">
-                            {{ address.address }}
-                        </td>
-                        <td class="db-table-body-td">
-                            {{ address.apartment }}
-                        </td>
+                        <td class="db-table-body-td">{{ address.label }}</td>
+                        <td class="db-table-body-td">{{ address.full_address }}</td>
+                        <td class="db-table-body-td text-sm text-gray-600">{{ address.governorate }} - {{ address.city }}</td>
                         <td class="db-table-body-td">
                             <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5"> 
                                 <button @click="edit(address)" class="db-table-action edit">
@@ -94,23 +80,10 @@ export default {
                 isActive: false,
             },
             address: {
-                form: {
-                    address: "",
-                    apartment: "",
-                    latitude: "",
-                    longitude: "",
-                    label: "",
-                },
-                search: {
-                    paginate: 1,
-                    page: 1,
-                    per_page: 10,
-                    order_column: "id",
-                    order_type: "desc",
-                },
+                form: { governorate: "", city: "", street: "", building_number: "", apartment: "", label: "" },
+                search: { paginate: 1, page: 1, per_page: 10, order_column: "id", order_type: "desc" },
                 status: false,
                 switchLabel: "",
-                isMap: false,
             },
         }
     },
@@ -146,27 +119,11 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch("administratorAddress/edit", address.id).then((res) => {
                 this.loading.isActive = false;
-                this.address.isMap = true;
-                this.address.form = {
-                    address: address.address,
-                    apartment: address.apartment,
-                    latitude: address.latitude,
-                    longitude: address.longitude,
-                    label: address.label,
-                };
-                if (this.address.form.label === this.$t("label.home")) {
-                    this.address.status = false;
-                    this.address.switchLabel = labelEnum.HOME;
-                } else if (this.address.form.label === this.$t("label.work")) {
-                    this.address.status = false;
-                    this.address.switchLabel = labelEnum.WORK;
-                } else {
-                    this.address.status = true;
-                    this.address.switchLabel = labelEnum.OTHER;
-                }
-            }).catch((err) => {
-                alertService.error(err.response.data.message);
-            });
+                this.address.form = { governorate: address.governorate, city: address.city, street: address.street, building_number: address.building_number, apartment: address.apartment, label: address.label };
+                if (this.address.form.label === this.$t("label.home")) { this.address.status = false; this.address.switchLabel = labelEnum.HOME; }
+                else if (this.address.form.label === this.$t("label.work")) { this.address.status = false; this.address.switchLabel = labelEnum.WORK; }
+                else { this.address.status = true; this.address.switchLabel = labelEnum.OTHER; }
+            }).catch((err) => { alertService.error(err.response.data.message); });
         },
         destroy: function (addressId) {
             appService.destroyConfirmation().then((res) => {

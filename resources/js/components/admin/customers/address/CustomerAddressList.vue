@@ -17,10 +17,10 @@
               {{ $t("label.label") }}
             </th>
             <th class="db-table-head-th">
-              {{ $t("label.address") }}
+              {{ $t("label.full_address") }}
             </th>
             <th class="db-table-head-th">
-              {{ $t("label.apartment") }}
+              {{ $t("label.governorate") }} / {{ $t("label.city") }}
             </th>
             <th class="db-table-head-th">
               {{ $t("label.action") }}
@@ -33,10 +33,10 @@
               {{ address.label }}
             </td>
             <td class="db-table-body-td">
-              {{ address.address }}
+              {{ address.full_address }}
             </td>
-            <td class="db-table-body-td">
-              {{ address.apartment }}
+            <td class="db-table-body-td text-sm text-gray-600">
+              {{ address.governorate }} - {{ address.city }}
             </td>
             <td class="db-table-body-td">
               <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
@@ -95,10 +95,11 @@ export default {
       },
       address: {
         form: {
-          address: "",
+          governorate: "",
+          city: "",
+          street: "",
+          building_number: "",
           apartment: "",
-          latitude: "",
-          longitude: "",
           label: "",
         },
         search: {
@@ -110,7 +111,6 @@ export default {
         },
         status: false,
         switchLabel: "",
-        isMap: false,
       },
     }
   },
@@ -148,12 +148,12 @@ export default {
         .dispatch("customerAddress/edit", address.id)
         .then((res) => {
           this.loading.isActive = false;
-          this.address.isMap = true;
           this.address.form = {
-            address: address.address,
+            governorate: address.governorate,
+            city: address.city,
+            street: address.street,
+            building_number: address.building_number,
             apartment: address.apartment,
-            latitude: address.latitude,
-            longitude: address.longitude,
             label: address.label,
           };
           if (this.address.form.label === this.$t("label.home")) {

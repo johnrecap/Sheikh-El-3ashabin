@@ -21,9 +21,11 @@
                             </nav>
                         </div>
                     </div>
-                    <p class="text-sm leading-6">
-                         {{ address.apartment ? address.apartment + ', ' : '' }}
-                                {{ address.address }}
+                    <p class="text-sm leading-6 text-gray-700">
+                        {{ address.full_address }}
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1">
+                        {{ address.governorate }} - {{ address.city }}
                     </p>
                 </div>
             </div>
@@ -57,21 +59,20 @@ export default {
             localAddress: {},
             address: {
                 form: {
-                    address: "",
+                    governorate: "",
+                    city: "",
+                    street: "",
+                    building_number: "",
                     apartment: "",
-                    latitude: "",
-                    longitude: "",
                     label: "",
                 },
                 search: {
                     paginate: 0,
                     order_column: "id",
                     order_type: "asc",
-
                 },
                 status: false,
                 switchLabel: "",
-                isMap: false,
             },
         }
     },
@@ -102,14 +103,13 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch("frontendAddress/edit", address.id).then((res) => {
                 this.loading.isActive = false;
-                this.address.isMap = true;
                 this.address.form = {
-                    address: address.address,
+                    governorate: address.governorate,
+                    city: address.city,
+                    street: address.street,
+                    building_number: address.building_number,
                     apartment: address.apartment,
-                    latitude: address.latitude,
-                    longitude: address.longitude,
                     label: address.label,
-
                 };
                 if (this.address.form.label === this.$t("label.home")) {
                     this.address.status = false;

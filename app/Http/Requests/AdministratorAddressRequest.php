@@ -25,11 +25,12 @@ class AdministratorAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'label'     => ['required', 'string', 'max:190', Rule::unique("addresses", "label")->ignore($this->route('address.id'))->where('user_id', $this->route('administrator.id'))],
-            'latitude'  => ['required', 'max:190'],
-            'longitude' => ['required', 'max:190'],
-            'address'   => ['required', 'string', 'max:500'],
-            'apartment' => ['nullable', 'string', 'max:200'],
+            'label'           => ['required', 'string', 'max:190', Rule::unique("addresses", "label")->ignore($this->route('address.id'))->where('user_id', $this->route('administrator.id'))],
+            'governorate'     => ['required', 'string', 'max:100'],
+            'city'            => ['required', 'string', 'max:100'],
+            'street'          => ['nullable', 'string', 'max:200'],
+            'building_number' => ['nullable', 'string', 'max:50'],
+            'apartment'       => ['nullable', 'string', 'max:200'],
         ];
     }
 }
