@@ -35,6 +35,7 @@ return [
         'date'                       => 'Date',
         'total'                      => 'Total',
         'delivery_charge'            => 'Delivery Charge',
+        'delivery_fee'               => 'Delivery Fee',
         'payment_type'               => 'Payment Type',
         'payment_status'             => 'Payment Status',
         'quantity'                   => 'Quantity',

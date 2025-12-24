@@ -35,6 +35,7 @@ return [
         'date'                       => 'التاريخ',
         'total'                      => 'الإجمالي',
         'delivery_charge'            => 'رسوم التوصيل',
+        'delivery_fee'               => 'رسوم التوصيل',
         'payment_type'               => 'نوع الدفع',
         'payment_status'             => 'حالة الدفع',
         'quantity'                   => 'الكمية',

@@ -312,7 +312,7 @@ export const frontendCart = {
             if (state.orderType === orderTypeEnum.DELIVERY) {
                 if (Object.keys(state.deliveryZone).length > 0) {
                     // Use flat delivery charge from zone (no distance calculation)
-                    state.deliveryCharge = parseFloat(state.deliveryZone.delivery_charge_per_kilo) || 0;
+                    state.deliveryCharge = parseFloat(state.deliveryZone.delivery_fee) || parseFloat(state.deliveryZone.delivery_charge_per_kilo) || 0;
                 } else {
                     state.deliveryCharge = 0;
                 }

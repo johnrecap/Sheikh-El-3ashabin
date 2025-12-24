@@ -124,7 +124,33 @@ class DeliveryZoneService
     public function deliveryZoneCheck(Request $request)
     {
         try {
+            // New Logic: Check by Address ID -> Governorate
+            // Check for 'id' (from frontend query param) OR 'address_id'
+            $addressId = $request->address_id ?? $request->id;
+
+            if ($addressId) {
+                $address = \App\Models\Address::find($addressId);
+                if ($address && $address->governorate) {
+                    $deliveryZone = DeliveryZone::where('governorate_name', $address->governorate)
+                        ->where('status', Status::ACTIVE)
+                        ->first();
+
+                    if ($deliveryZone) {
+                        return $deliveryZone;
+                    }
+                }
+            }
+
+            // Fallback: If no address ID or gov match, try finding a 'General' zone or keep old logic if needed
+            // For now, let's keep the old behavior as a fallback if no specific gov zone found
             // Return first active delivery zone (distance check disabled)
+            $deliveryZone = DeliveryZone::where('status', Status::ACTIVE)->whereNull('governorate_name')->first();
+
+            if ($deliveryZone) {
+                return $deliveryZone;
+            }
+
+            // If still nothing, just return any active one (legacy behavior)
             $deliveryZone = DeliveryZone::where('status', Status::ACTIVE)->first();
 
             if ($deliveryZone) {

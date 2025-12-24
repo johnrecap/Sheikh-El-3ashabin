@@ -97,12 +97,14 @@ export default {
             props: {
                 form: {
                     name: "",
+                    governorate_name: "",
                     email: "",
                     phone: "",
                     latitude: "",
                     longitude: "",
                     delivery_radius_kilometer: "",
                     delivery_charge_per_kilo: "",
+                    delivery_fee: "",
                     minimum_order_amount: "",
                     address: "",
                     status: statusEnum.ACTIVE,
@@ -153,12 +155,14 @@ export default {
             this.$store.dispatch("deliveryZone/edit", deliveryZone.id);
             this.props.form = {
                 name: deliveryZone.name,
+                governorate_name: deliveryZone.governorate_name,
                 email: deliveryZone.email,
                 phone: deliveryZone.phone,
                 latitude: deliveryZone.latitude,
                 longitude: deliveryZone.longitude,
                 delivery_radius_kilometer: deliveryZone.delivery_radius_kilometer,
                 delivery_charge_per_kilo: deliveryZone.delivery_charge_per_kilo,
+                delivery_fee: deliveryZone.delivery_fee,
                 minimum_order_amount: deliveryZone.minimum_order_amount,
                 address: deliveryZone.address,
                 status: deliveryZone.status,
