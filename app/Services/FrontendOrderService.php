@@ -178,13 +178,16 @@ class FrontendOrderService
                     if ($request->address_id) {
                         $address = Address::find($request->address_id);
                         OrderAddress::create([
-                            'order_id'  => $this->order->id,
-                            'user_id'   => Auth::user()->id,
-                            'label'     => $address->label,
-                            'address'   => $address->address,
-                            'apartment' => $address->apartment,
-                            'latitude'  => $address->latitude,
-                            'longitude' => $address->longitude
+                            'order_id'        => $this->order->id,
+                            'user_id'         => Auth::user()->id,
+                            'label'           => $address->label,
+                            'governorate'     => $address->governorate,
+                            'city'            => $address->city,
+                            'street'          => $address->street,
+                            'building_number' => $address->building_number,
+                            'apartment'       => $address->apartment,
+                            'full_address'    => $address->full_address,
+                            'phone'           => $address->phone
                         ]);
                     }
                 } elseif ($request->order_type == OrderType::PICK_UP) {
