@@ -22,6 +22,10 @@
                                 :class="'text-sm capitalize h-5 leading-5 px-2 rounded-3xl text-[#FB4E4E] bg-[#FFDADA]'">
                                 {{ $t('label.edited') }}
                             </span>
+                            <span v-if="order.is_guest_order"
+                                class="text-sm capitalize h-5 leading-5 px-2 rounded-3xl text-[#8B5CF6] bg-[#EDE9FE]">
+                                {{ $t('label.guest_order') }}
+                            </span>
                         </div>
                     </div>
                     <ul class="flex flex-col gap-2">
@@ -270,7 +274,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12" v-if="order.order_type === enums.orderTypeEnum.DELIVERY && orderAddress">
+            <div class="col-12" v-if="order.order_type === enums.orderTypeEnum.DELIVERY">
                 <div class="db-card">
                     <div class="db-card-header">
                         <h3 class="db-card-title">
@@ -278,32 +282,68 @@
                         </h3>
                     </div>
                     <div class="db-card-body">
-                        <div class="flex items-center gap-3 mb-4">
-                            <img class="w-8 rounded-full" alt="avatar" :src="orderUser.image">
-                            <h4 class="font-semibold text-sm capitalize text-[#374151]">
-                                {{ textShortener(orderUser.name, 20) }}
-                            </h4>
-                        </div>
-                        <ul class="flex flex-col gap-3 py-4 border-t border-[#EFF0F6]">
-                            <li v-if="orderUser.email" class="flex items-center gap-2.5">
-                                <i class="lab lab-line-mail lab-font-size-14"></i>
-                                <span class="text-xs">{{ orderUser.email }}</span>
-                            </li>
-                            <li class="flex items-center gap-2.5" v-if="orderUser.phone">
-                                <i class="lab lab-line-call-calling lab-font-size-14"></i>
-                                <span class="text-xs">{{ orderUser.country_code + '' + orderUser.phone }}</span>
-                            </li>
-
-                            <li class="flex items-center gap-2.5">
-                                <i class="lab lab-line-location lab-font-size-14"></i>
-                                <span class="text-xs">
-                                    <span v-if="orderAddress.address">
-                                        {{ orderAddress.apartment ? orderAddress.apartment + ', ' : '' }} {{
-                                            orderAddress.address }}
+                        <!-- Guest Order Info -->
+                        <template v-if="order.is_guest_order">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-8 h-8 rounded-full bg-[#8B5CF6] flex items-center justify-center">
+                                    <i class="lab lab-line-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-sm capitalize text-[#374151]">
+                                        {{ order.guest_name }}
+                                    </h4>
+                                    <span class="text-xs text-[#8B5CF6]">{{ $t('label.guest_order') }}</span>
+                                </div>
+                            </div>
+                            <ul class="flex flex-col gap-3 py-4 border-t border-[#EFF0F6]">
+                                <li v-if="order.guest_email" class="flex items-center gap-2.5">
+                                    <i class="lab lab-line-mail lab-font-size-14"></i>
+                                    <span class="text-xs">{{ order.guest_email }}</span>
+                                </li>
+                                <li class="flex items-center gap-2.5" v-if="order.guest_phone">
+                                    <i class="lab lab-line-call-calling lab-font-size-14"></i>
+                                    <span class="text-xs font-semibold text-primary">{{ order.guest_phone }}</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="lab lab-line-location lab-font-size-14"></i>
+                                    <span class="text-xs">
+                                        {{ order.guest_apartment ? order.guest_apartment + ', ' : '' }}
+                                        {{ order.guest_building_number ? order.guest_building_number + ', ' : '' }}
+                                        {{ order.guest_street ? order.guest_street + ', ' : '' }}
+                                        {{ order.guest_city ? order.guest_city + ', ' : '' }}
+                                        {{ order.guest_governorate || '' }}
                                     </span>
-                                </span>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </template>
+                        <!-- Registered User Order Info -->
+                        <template v-else-if="orderAddress">
+                            <div class="flex items-center gap-3 mb-4">
+                                <img class="w-8 rounded-full" alt="avatar" :src="orderUser.image">
+                                <h4 class="font-semibold text-sm capitalize text-[#374151]">
+                                    {{ textShortener(orderUser.name, 20) }}
+                                </h4>
+                            </div>
+                            <ul class="flex flex-col gap-3 py-4 border-t border-[#EFF0F6]">
+                                <li v-if="orderUser.email" class="flex items-center gap-2.5">
+                                    <i class="lab lab-line-mail lab-font-size-14"></i>
+                                    <span class="text-xs">{{ orderUser.email }}</span>
+                                </li>
+                                <li class="flex items-center gap-2.5" v-if="orderUser.phone">
+                                    <i class="lab lab-line-call-calling lab-font-size-14"></i>
+                                    <span class="text-xs">{{ orderUser.country_code + '' + orderUser.phone }}</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="lab lab-line-location lab-font-size-14"></i>
+                                    <span class="text-xs">
+                                        <span v-if="orderAddress.address">
+                                            {{ orderAddress.apartment ? orderAddress.apartment + ', ' : '' }} {{
+                                                orderAddress.address }}
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </template>
                     </div>
                 </div>
             </div>

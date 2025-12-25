@@ -663,6 +663,7 @@
                 "apartment": "Apartment",
                 "new_label": "New Label",
                 "delivery_zone": "Delivery Zone",
+                "guest_order": "Guest Order",
                 "delivery_radius_kilometer": "Delivery Radius Kilometer",
                 "delivery_charge_per_kilo": "Delivery Charge",
                 "minimum_order_amount": "Minimum Order Amount",

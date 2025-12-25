@@ -663,6 +663,7 @@
         "apartment": "شقة",
         "new_label": "تصنيف جديد",
         "delivery_zone": "منطقة التوصيل",
+        "guest_order": "طلب زائر",
         "delivery_radius_kilometer": "نطاق التوصيل بالكيلومتر",
         "delivery_charge_per_kilo": "رسوم التوصيل",
         "minimum_order_amount": "الحد الأدنى للطلب",
