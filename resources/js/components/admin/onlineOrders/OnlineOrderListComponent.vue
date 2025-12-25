@@ -108,7 +108,13 @@
                             </td>
 
                             <td class="db-table-body-td">
-                                {{ textShortener(order.user.name, 20) }}
+                                <div class="flex flex-col">
+                                    <span>{{ order.customer_name || textShortener(order.user?.name, 20) || $t('label.guest_order') }}</span>
+                                    <span v-if="order.is_guest_order" class="text-xs text-[#8B5CF6]">{{ order.customer_phone }}</span>
+                                    <span v-if="order.is_guest_order" class="text-[10px] px-1.5 py-0.5 rounded-full bg-[#EDE9FE] text-[#8B5CF6] w-fit mt-1">
+                                        {{ $t('label.guest_order') }}
+                                    </span>
+                                </div>
                             </td>
                             <td class="db-table-body-td">{{ order.total_amount_price }}</td>
                             <td class="db-table-body-td">

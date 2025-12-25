@@ -28,6 +28,19 @@ class OrderResource extends JsonResource
             'order_items'          => optional($this->orderProducts)->count(),
             'order_datetime'       => AppLibrary::datetime($this->order_datetime),
             'user'                 => new UserResource($this->user),
+            // Guest order info
+            'is_guest_order'       => $this->is_guest_order ?? false,
+            'guest_name'           => $this->guest_name,
+            'guest_email'          => $this->guest_email,
+            'guest_phone'          => $this->guest_phone,
+            'guest_governorate'    => $this->guest_governorate,
+            'guest_city'           => $this->guest_city,
+            'guest_street'         => $this->guest_street,
+            'guest_building_number' => $this->guest_building_number,
+            'guest_apartment'      => $this->guest_apartment,
+            // Display name - use guest name if guest order, otherwise use user name
+            'customer_name'        => $this->is_guest_order ? $this->guest_name : optional($this->user)->name,
+            'customer_phone'       => $this->is_guest_order ? $this->guest_phone : optional($this->user)->phone,
         ];
     }
 }
