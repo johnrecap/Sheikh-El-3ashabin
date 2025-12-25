@@ -202,6 +202,7 @@ export const frontendCart = {
         deliveryZone: function (context, payload) {
             context.commit('deliveryZone', payload);
             context.commit("deliveryCharge");
+            context.commit("subtotal"); // Recalculate total with delivery charge
         },
         deliveryAddress: function (context, payload) {
             context.commit('deliveryAddress', payload);
