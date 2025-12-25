@@ -182,6 +182,15 @@ export default {
         },
         confirmOrder: function (e) {
             e.target.disabled = true;
+            
+            // IMPORTANT: Check payment method BEFORE making API call
+            let paymentSlug = Object.keys(this.paymentMethod).length > 0 ? this.paymentMethod.slug : '';
+            if (!paymentSlug) {
+                alertService.error(this.$t('message.payment_method_required'));
+                e.target.disabled = false;
+                return;
+            }
+            
             this.loading.isActive = true;
 
             const fd = new FormData();
@@ -218,14 +227,9 @@ export default {
 
                 axios.post('frontend/guest-order', fd).then(orderResponse => {
                     this.loading.isActive = false;
+                    // Reset cart and redirect to payment
                     this.$store.dispatch('frontendCart/resetCart');
-                    let paymentSlug = Object.keys(this.paymentMethod).length > 0 ? this.paymentMethod.slug : '';
-                    if (paymentSlug) {
-                        window.location.href = ENV.API_URL + "/payment/" + paymentSlug + "/pay/" + orderResponse.data.data.id;
-                    } else {
-                        alertService.error(this.$t('message.payment_method_required'));
-                        e.target.disabled = false;
-                    }
+                    window.location.href = ENV.API_URL + "/payment/" + paymentSlug + "/pay/" + orderResponse.data.data.id;
                 }).catch((err) => {
                     this.loading.isActive = false;
                     e.target.disabled = false;
