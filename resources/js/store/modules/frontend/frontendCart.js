@@ -20,7 +20,20 @@ export const frontendCart = {
         totalTax: 0,
         deliveryCharge: 0,
         isList: false,
-        images: []
+        images: [],
+        // Guest checkout fields
+        guestInfo: {
+            name: '',
+            email: '',
+            phone: ''
+        },
+        guestAddress: {
+            governorate: '',
+            city: '',
+            street: '',
+            building_number: '',
+            apartment: ''
+        }
     },
     getters: {
         lists: function (state) {
@@ -64,6 +77,12 @@ export const frontendCart = {
         },
         isList: function (state) {
             return state.isList;
+        },
+        guestInfo: function (state) {
+            return state.guestInfo;
+        },
+        guestAddress: function (state) {
+            return state.guestAddress;
         }
     },
     actions: {
@@ -200,6 +219,12 @@ export const frontendCart = {
         paymentMethod: function (context, payload) {
             context.commit('paymentMethod', payload);
         },
+        setGuestInfo: function (context, payload) {
+            context.commit('setGuestInfo', payload);
+        },
+        setGuestAddress: function (context, payload) {
+            context.commit('setGuestAddress', payload);
+        },
         resetCart: function (context) {
             context.commit('resetCart');
         },
@@ -323,6 +348,12 @@ export const frontendCart = {
         isList: function (state, payload) {
             state.isList = payload;
         },
+        setGuestInfo: function (state, payload) {
+            state.guestInfo = payload;
+        },
+        setGuestAddress: function (state, payload) {
+            state.guestAddress = payload;
+        },
         resetCart: function (state) {
             state.lists = [];
             state.images = [];
@@ -336,6 +367,9 @@ export const frontendCart = {
             state.paymentMethod = {};
             state.totalTax = 0;
             state.deliveryCharge = 0;
+            // Reset guest info
+            state.guestInfo = { name: '', email: '', phone: '' };
+            state.guestAddress = { governorate: '', city: '', street: '', building_number: '', apartment: '' };
         }
     },
 };

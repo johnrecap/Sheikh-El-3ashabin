@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Order;
 use Exception;
 use App\Http\Requests\OrderRequest;
+use App\Http\Requests\GuestOrderRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Http\Requests\PaginateRequest;
@@ -53,6 +54,18 @@ class OrderController extends Controller
     {
         try {
             return new OrderDetailsResource($this->frontendOrderService->changeStatus($frontendOrder, $request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+
+    /**
+     * Store a guest order (no authentication required)
+     */
+    public function storeGuest(GuestOrderRequest $request): \Illuminate\Http\Response | OrderDetailsResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    {
+        try {
+            return new OrderDetailsResource($this->frontendOrderService->storeGuestOrder($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

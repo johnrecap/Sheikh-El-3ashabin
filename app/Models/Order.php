@@ -16,6 +16,10 @@ class Order extends Model implements HasMedia
     protected $fillable = [
         'order_serial_no',
         'user_id',
+        'guest_name',
+        'guest_email',
+        'guest_phone',
+        'is_guest_order',
         'delivery_zone_id',
         'tax',
         'discount',
@@ -40,6 +44,10 @@ class Order extends Model implements HasMedia
         'id'                 => 'integer',
         'order_serial_no'    => 'string',
         'user_id'            => 'integer',
+        'guest_name'         => 'string',
+        'guest_email'        => 'string',
+        'guest_phone'        => 'string',
+        'is_guest_order'     => 'boolean',
         'delivery_zone_id'   => 'integer',
         'tax'                => 'decimal:6',
         'discount'           => 'decimal:6',
@@ -59,6 +67,14 @@ class Order extends Model implements HasMedia
         'source'             => 'integer',
         'delivery_boy_id'    => 'integer'
     ];
+
+    /**
+     * Check if this is a guest order
+     */
+    public function isGuestOrder(): bool
+    {
+        return $this->is_guest_order || is_null($this->user_id);
+    }
 
     public function getImagesAttribute(): array
     {

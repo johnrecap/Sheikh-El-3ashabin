@@ -22,6 +22,7 @@ import CheckoutHeaderComponent from "../../components/frontend/checkout/checkout
 import CheckoutPaymentComponent from "../../components/frontend/checkout/payment/PaymentComponent.vue";
 import PaymentHeaderComponent from "../../components/frontend/checkout/payment/HeaderComponent.vue";
 import MostPopularProductComponent from "../../components/frontend/product/MostPopularProductComponent.vue";
+import GuestOrderSuccessComponent from "../../components/frontend/order/GuestOrderSuccessComponent.vue";
 
 export default [
     {
@@ -116,6 +117,15 @@ export default [
         },
     },
     {
+        path: "/order-success/:id",
+        component: GuestOrderSuccessComponent,
+        name: "frontend.orderSuccess",
+        meta: {
+            isFrontend: true,
+            auth: false,
+        },
+    },
+    {
         path: "/account",
         component: AccountComponent,
         name: "frontend.account",
@@ -188,7 +198,7 @@ export default [
         redirect: { name: "frontend.checkout.checkout" },
         meta: {
             isFrontend: true,
-            auth: true,
+            auth: false, // Changed to allow guest checkout
         },
         children: [
             {
@@ -197,7 +207,7 @@ export default [
                 name: "frontend.checkout.cartList",
                 meta: {
                     isFrontend: true,
-                    auth: true
+                    auth: false // Changed to allow guest checkout
                 }
             },
             {
@@ -206,7 +216,7 @@ export default [
                 name: "frontend.checkout.checkout",
                 meta: {
                     isFrontend: true,
-                    auth: true
+                    auth: false // Changed to allow guest checkout
                 }
             },
             {
@@ -215,7 +225,7 @@ export default [
                 name: "frontend.checkout.payment",
                 meta: {
                     isFrontend: true,
-                    auth: true
+                    auth: false // Changed to allow guest checkout
                 }
             }
         ]

@@ -232,6 +232,136 @@ class FrontendOrderService
     }
 
     /**
+     * Store a guest order (no authentication required)
+     * @throws Exception
+     */
+    public function storeGuestOrder($request): object
+    {
+        try {
+            DB::transaction(function () use ($request) {
+                // Create order with guest info (no user_id)
+                $this->order = Order::create([
+                    'user_id'        => null,
+                    'guest_name'     => $request->guest_name,
+                    'guest_email'    => $request->guest_email,
+                    'guest_phone'    => $request->guest_phone,
+                    'is_guest_order' => true,
+                    'subtotal'       => $request->subtotal,
+                    'tax'            => $request->tax,
+                    'discount'       => $request->discount ?? 0,
+                    'delivery_charge' => $request->delivery_charge ?? 0,
+                    'total'          => $request->total,
+                    'order_type'     => $request->order_type,
+                    'delivery_zone_id' => $request->delivery_zone_id,
+                    'source'         => $request->source,
+                    'payment_method' => $request->payment_method,
+                    'status'         => OrderStatus::PENDING,
+                    'payment_status' => PaymentStatus::UNPAID,
+                    'order_datetime' => date('Y-m-d H:i:s')
+                ]);
+
+                // Process products
+                $products = json_decode($request->products);
+                if (!blank($products)) {
+                    foreach ($products as $product) {
+                        $stockId = Stock::create([
+                            'product_id'      => $product->product_id,
+                            'model_type'      => Order::class,
+                            'model_id'        => $this->order->id,
+                            'item_type'       => $product->variation_id > 0 ? ProductVariation::class : Product::class,
+                            'item_id'         => $product->variation_id > 0 ? $product->variation_id : $product->product_id,
+                            'variation_names' => $product->variation_names,
+                            'sku'             => $product->sku,
+                            'price'           => $product->price,
+                            'quantity'        => -$product->quantity,
+                            'discount'        => $product->discount,
+                            'tax'             => number_format($product->total_tax, env('CURRENCY_DECIMAL_POINT'), '.', ''),
+                            'subtotal'        => $product->subtotal,
+                            'total'           => $product->total,
+                            'status'          => Status::INACTIVE,
+                        ]);
+                        if ($product->taxes) {
+                            $j = 0;
+                            $productTaxArray = [];
+                            foreach ($product->taxes as $tax) {
+                                $productTaxArray[$j] = [
+                                    'stock_id'   => $stockId->id,
+                                    'product_id' => $product->product_id,
+                                    'tax_id'     => $tax->id,
+                                    'name'       => $tax->name,
+                                    'code'       => $tax->code,
+                                    'tax_rate'   => $tax->tax_rate,
+                                    'tax_amount' => $tax->tax_amount,
+                                    'created_at' => now(),
+                                    'updated_at' => now()
+                                ];
+                                $j++;
+                            }
+                            StockTax::insert($productTaxArray);
+                        }
+                    }
+                }
+
+                $this->order->order_serial_no = date('dmy') . $this->order->id;
+                $this->order->save();
+
+                // Create order address directly from request (for delivery orders)
+                if ($request->order_type == OrderType::DELIVERY) {
+                    OrderAddress::create([
+                        'order_id'        => $this->order->id,
+                        'user_id'         => null, // Guest order
+                        'label'           => 'عنوان التوصيل',
+                        'governorate'     => $request->governorate,
+                        'city'            => $request->city,
+                        'street'          => $request->street ?? '',
+                        'building_number' => $request->building_number ?? '',
+                        'apartment'       => $request->apartment ?? '',
+                        'phone'           => $request->guest_phone,
+                    ]);
+                } elseif ($request->order_type == OrderType::PICK_UP) {
+                    $outletAddress = Outlet::find($request->outlet_id);
+                    if ($outletAddress) {
+                        OrderOutletAddress::create([
+                            'order_id'         => $this->order->id,
+                            'user_id'          => null, // Guest order
+                            'delivery_zone_id' => $outletAddress->delivery_zone_id,
+                            'name'             => $outletAddress->name,
+                            'email'            => $outletAddress->email,
+                            'phone'            => $outletAddress->phone,
+                            'country_code'     => $outletAddress->country_code,
+                            'latitude'         => $outletAddress->latitude,
+                            'longitude'        => $outletAddress->longitude,
+                            'address'          => $outletAddress->address,
+                        ]);
+                    }
+                }
+
+                // Handle coupon
+                if ($request->coupon_id > 0) {
+                    OrderCoupon::create([
+                        'order_id'  => $this->order->id,
+                        'coupon_id' => $request->coupon_id,
+                        'user_id'   => null, // Guest order
+                        'discount'  => $request->discount
+                    ]);
+                }
+
+                // Handle images
+                if ($request->hasFile('images')) {
+                    foreach ($request->file('images') as $image) {
+                        $this->order->addMedia($image)->toMediaCollection('order');
+                    }
+                }
+            });
+            return $this->order;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::info($exception->getMessage());
+            throw new Exception(QueryExceptionLibrary::message($exception), 422);
+        }
+    }
+
+    /**
      * @throws Exception
      */
     public function show(Order $order): Order|array

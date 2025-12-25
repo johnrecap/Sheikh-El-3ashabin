@@ -98,7 +98,18 @@ return [
         'mada_merchant_id'           => 'معرف التاجر Mada',
         'mada_api_key'               => 'مفتاح API لـ Mada',
         'mada_mode'                  => 'بيئة Mada',
-        'mada_status'                => 'حالة Mada'
+        'mada_status'                => 'حالة Mada',
+        // Guest Checkout Labels
+        'guest_info'                 => 'معلومات الضيف',
+        'full_name'                  => 'الاسم الكامل',
+        'enter_full_name'            => 'أدخل اسمك الكامل',
+        'enter_email'                => 'أدخل بريدك الإلكتروني',
+        'delivery_address'           => 'عنوان التوصيل',
+        'order_details'              => 'تفاصيل الطلب',
+        'order_number'               => 'رقم الطلب',
+    ],
+    'button' => [
+        'continue_shopping'          => 'متابعة التسوق',
     ],
     'message' => [
         'validation_error'                 => 'خطأ في التحقق.',
@@ -173,6 +184,11 @@ return [
         "supper_admin_status"              => "لا يمكن تعطيل حالة المدير العام.",
         "accepted_order_can_not_be_edit"   => "لا يمكن تعديل الطلبات المقبولة.",
         "the_product_can_not_be_deleted"   => "لا يمكن حذف المنتج.",
-        'coupon_limit_exceeded'            => 'تم تجاوز حد القسيمة'
+        'coupon_limit_exceeded'            => 'تم تجاوز حد القسيمة',
+        // Guest Checkout Messages
+        'required_guest_info'              => 'يرجى إدخال معلومات الضيف (الاسم والبريد الإلكتروني والهاتف).',
+        'order_success_title'              => 'تم استلام طلبك بنجاح!',
+        'order_success_message'            => 'شكراً لك على طلبك. سنقوم بمعالجته في أقرب وقت ممكن.',
+        'guest_order_note'                 => 'لمتابعة حالة طلبك، يمكنك التواصل معنا عبر الهاتف أو البريد الإلكتروني.'
     ]
 ];

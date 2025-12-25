@@ -34,7 +34,11 @@
                 </div>
             </div>
 
-            <AddressComponent v-if="orderType === orderTypeEnum.DELIVERY" :show="true"
+            <!-- Guest Info Component (for non-logged-in users) -->
+            <GuestInfoComponent v-if="!isLoggedIn && orderType === orderTypeEnum.DELIVERY" />
+
+            <!-- Address Component (for logged-in users) -->
+            <AddressComponent v-if="isLoggedIn && orderType === orderTypeEnum.DELIVERY" :show="true"
                 :selectedAddress="getDeliveryAddress" :method="deliveryAddress" />
 
             <div class="mb-6 rounded-2xl shadow-card" v-if="file_attachment">
@@ -119,6 +123,7 @@
 <script>
 import orderTypeEnum from "../../../../enums/modules/orderTypeEnum";
 import AddressComponent from "./AddressComponent.vue";
+import GuestInfoComponent from "./GuestInfoComponent.vue";
 import SummeryComponent from "../SummeryComponent.vue";
 import CouponComponent from "../CouponComponent.vue";
 import router from "../../../../router";
@@ -130,7 +135,7 @@ import activityEnum from "../../../../enums/modules/activityEnum"
 
 export default {
     name: "CheckoutComponent",
-    components: { CouponComponent, SummeryComponent, AddressComponent, LoadingComponent },
+    components: { CouponComponent, SummeryComponent, AddressComponent, GuestInfoComponent, LoadingComponent },
     data() {
         return {
             loading: {
@@ -174,6 +179,9 @@ export default {
         carts: function () {
             return this.$store.getters['frontendCart/lists'];
         },
+        isLoggedIn: function () {
+            return this.$store.getters.authStatus;
+        }
     },
     mounted() {
         this.loading.isActive = true;
@@ -218,15 +226,41 @@ export default {
             }, 100);
         },
         selectAddress: function () {
-            if (this.orderType === orderTypeEnum.DELIVERY && Object.keys(this.getDeliveryAddress).length === 0) {
-                alertService.error(this.$t("message.required_delivery_address"));
-            } else if (this.orderType === orderTypeEnum.PICK_UP && Object.keys(this.getOutletAddress).length === 0) {
-                alertService.error(this.$t("message.required_outlet_address"));
-            } else if (this.carts.some(item => item.file_attachment === this.enums.activityEnum.ENABLE && this.images.length === 0)) {
-                alertService.error(this.$t("message.file_attachment_required"));
+            // For guests, validate guest info
+            if (!this.isLoggedIn) {
+                const guestInfo = this.$store.getters['frontendCart/guestInfo'];
+                const guestAddress = this.$store.getters['frontendCart/guestAddress'];
+                
+                if (!guestInfo.name || !guestInfo.email || !guestInfo.phone) {
+                    alertService.error(this.$t("message.required_guest_info"));
+                    return;
+                }
+                
+                if (this.orderType === orderTypeEnum.DELIVERY) {
+                    if (!guestAddress.governorate || !guestAddress.city) {
+                        alertService.error(this.$t("message.required_delivery_address"));
+                        return;
+                    }
+                }
             } else {
-                router.push({ name: "frontend.checkout.payment" });
+                // For logged-in users, check saved address
+                if (this.orderType === orderTypeEnum.DELIVERY && Object.keys(this.getDeliveryAddress).length === 0) {
+                    alertService.error(this.$t("message.required_delivery_address"));
+                    return;
+                }
             }
+            
+            if (this.orderType === orderTypeEnum.PICK_UP && Object.keys(this.getOutletAddress).length === 0) {
+                alertService.error(this.$t("message.required_outlet_address"));
+                return;
+            }
+            
+            if (this.carts.some(item => item.file_attachment === this.enums.activityEnum.ENABLE && this.images.length === 0)) {
+                alertService.error(this.$t("message.file_attachment_required"));
+                return;
+            }
+            
+            router.push({ name: "frontend.checkout.payment" });
         },
         handleFileUrl: function (changeEvent, storeVariable) {
             const file = changeEvent.target.files[0];

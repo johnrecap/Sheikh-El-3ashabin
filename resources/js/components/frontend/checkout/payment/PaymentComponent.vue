@@ -71,6 +71,7 @@ import SummeryComponent from "../SummeryComponent.vue";
 import CouponComponent from "../CouponComponent.vue";
 import LoadingComponent from "../../components/LoadingComponent.vue";
 import _ from "lodash";
+import axios from "axios";
 import alertService from "../../../../services/alertService";
 import sourceEnum from "../../../../enums/modules/sourceEnum";
 import ENV from "../../../../config/env";
@@ -142,6 +143,15 @@ export default {
         totalTax: function () {
             return this.$store.getters['frontendCart/totalTax'];
         },
+        isLoggedIn: function () {
+            return this.$store.getters.authStatus;
+        },
+        guestInfo: function () {
+            return this.$store.getters['frontendCart/guestInfo'];
+        },
+        guestAddress: function () {
+            return this.$store.getters['frontendCart/guestAddress'];
+        }
     },
     mounted() {
         this.loading.isActive = true;
@@ -172,6 +182,7 @@ export default {
         },
         confirmOrder: function (e) {
             e.target.disabled = true;
+            this.loading.isActive = true;
 
             const fd = new FormData();
             fd.append("subtotal", this.subtotal);
@@ -181,7 +192,6 @@ export default {
             fd.append("total", this.total);
             fd.append("order_type", this.orderType);
             fd.append("delivery_zone_id", Object.keys(this.getDeliveryZone).length > 0 ? this.getDeliveryZone.id : 0);
-            fd.append("address_id", Object.keys(this.getDeliveryAddress).length > 0 ? this.getDeliveryAddress.id : 0);
             fd.append("outlet_id", Object.keys(this.getOutletAddress).length > 0 ? this.getOutletAddress.id : 0);
             fd.append("coupon_id", Object.keys(this.cartCoupon).length > 0 ? this.cartCoupon.id : 0);
             fd.append("source", sourceEnum.WEB);
@@ -195,23 +205,61 @@ export default {
                 });
             }
 
-            this.$store.dispatch('frontendOrder/save', fd).then(orderResponse => {
-                this.loading.isActive = false;
-                let paymentSlug = Object.keys(this.paymentMethod).length > 0 ? this.paymentMethod.slug : '';
-                if (paymentSlug) {
-                    // Redirect to payment gateway page
-                    window.location.href = ENV.API_URL + "/payment/" + paymentSlug + "/pay/" + orderResponse.data.data.id;
-                } else {
-                    alertService.error(this.$t('message.payment_method_required'));
-                }
-            }).catch((err) => {
-                this.loading.isActive = false;
-                if (typeof err.response.data.errors === 'object') {
-                    _.forEach(err.response.data.errors, (error) => {
-                        alertService.error(error[0]);
-                    });
-                }
-            });
+            // Guest checkout flow
+            if (!this.isLoggedIn) {
+                fd.append("guest_name", this.guestInfo.name);
+                fd.append("guest_email", this.guestInfo.email);
+                fd.append("guest_phone", this.guestInfo.phone);
+                fd.append("governorate", this.guestAddress.governorate);
+                fd.append("city", this.guestAddress.city);
+                fd.append("street", this.guestAddress.street || '');
+                fd.append("building_number", this.guestAddress.building_number || '');
+                fd.append("apartment", this.guestAddress.apartment || '');
+
+                axios.post('/api/frontend/guest-order', fd).then(orderResponse => {
+                    this.loading.isActive = false;
+                    this.$store.dispatch('frontendCart/resetCart');
+                    let paymentSlug = Object.keys(this.paymentMethod).length > 0 ? this.paymentMethod.slug : '';
+                    if (paymentSlug) {
+                        window.location.href = ENV.API_URL + "/payment/" + paymentSlug + "/pay/" + orderResponse.data.data.id;
+                    } else {
+                        alertService.error(this.$t('message.payment_method_required'));
+                        e.target.disabled = false;
+                    }
+                }).catch((err) => {
+                    this.loading.isActive = false;
+                    e.target.disabled = false;
+                    if (err.response && err.response.data && typeof err.response.data.errors === 'object') {
+                        _.forEach(err.response.data.errors, (error) => {
+                            alertService.error(error[0]);
+                        });
+                    } else if (err.response && err.response.data && err.response.data.message) {
+                        alertService.error(err.response.data.message);
+                    }
+                });
+            } else {
+                // Logged-in user flow
+                fd.append("address_id", Object.keys(this.getDeliveryAddress).length > 0 ? this.getDeliveryAddress.id : 0);
+
+                this.$store.dispatch('frontendOrder/save', fd).then(orderResponse => {
+                    this.loading.isActive = false;
+                    let paymentSlug = Object.keys(this.paymentMethod).length > 0 ? this.paymentMethod.slug : '';
+                    if (paymentSlug) {
+                        window.location.href = ENV.API_URL + "/payment/" + paymentSlug + "/pay/" + orderResponse.data.data.id;
+                    } else {
+                        alertService.error(this.$t('message.payment_method_required'));
+                        e.target.disabled = false;
+                    }
+                }).catch((err) => {
+                    this.loading.isActive = false;
+                    e.target.disabled = false;
+                    if (typeof err.response.data.errors === 'object') {
+                        _.forEach(err.response.data.errors, (error) => {
+                            alertService.error(error[0]);
+                        });
+                    }
+                });
+            }
         },
         base64ToBlob: function (base64String) {
             let byteCharacters = atob(base64String.split(',')[1]);

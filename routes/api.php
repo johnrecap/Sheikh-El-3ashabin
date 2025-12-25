@@ -844,4 +844,9 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
     Route::prefix('check-delivery-zone')->name('check-delivery-zone.')->group(function () {
         Route::get('/', [FrontendDeliveryZoneController::class, 'deliveryZone']);
     });
+
+    // Guest order route (no authentication required)
+    Route::prefix('guest-order')->name('guest-order.')->group(function () {
+        Route::post('/', [FrontendOrderController::class, 'storeGuest']);
+    });
 });

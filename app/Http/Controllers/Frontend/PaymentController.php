@@ -110,6 +110,11 @@ class PaymentController extends Controller
         } catch (\Exception $e) {
         }
 
+        // Redirect guest orders to order-success page (no login required)
+        if ($order->isGuestOrder()) {
+            return redirect('/order-success/' . $order->id . '?status=success');
+        }
+
         return redirect('/account/order-details/' . $order->id . '?status=success');
     }
 }
