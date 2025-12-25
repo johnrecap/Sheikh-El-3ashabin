@@ -826,7 +826,8 @@
                 "delivered_orders": "Delivered Orders",
                 "confirm_location": "Confirm Location",
                 "add_delivery_zone": "Add Delivery Zone",
-                "statistics": "Statistics"
+                "statistics": "Statistics",
+                "continue_shopping": "Continue Shopping"
         },
         "number": {
                 "10": "10",
@@ -908,6 +909,10 @@
                 "file_size_not_exceed": "File size should not exceed 2MB",
                 "file_attachment_required": "The file attachment is required",
                 "empty_cart": "Your cart is empty! Start shopping now!",
-                "no_data_found": "No data found!"
+                "no_data_found": "No data found!",
+                "order_success_title": "Your Order Has Been Received!",
+                "order_success_message": "Thank you for your order. We will process it as soon as possible.",
+                "guest_order_note": "To track your order status, you can contact us via phone or email.",
+                "required_guest_info": "Please enter your name and phone number."
         }
 }

@@ -824,7 +824,8 @@
         "delivered_orders": "الطلبات المُسلَّمة",
         "confirm_location": "تأكيد الموقع",
         "add_delivery_zone": "إضافة منطقة التوصيل",
-        "statistics": "الإحصائيات"
+        "statistics": "الإحصائيات",
+        "continue_shopping": "متابعة التسوق"
     },
     "number": {
         "10": "10",
@@ -905,6 +906,10 @@
         "app_debug_disabled": "تم تعطيل تصحيح التطبيق في وضع العرض",
         "file_size_not_exceed": "يجب ألا يتجاوز حجم الملف 2 ميجا بايت",
         "file_attachment_required": "ملف المرفق مطلوب",
-        "empty_cart": "سلة التسوق فارغة! ابدأ التسوق الآن!"
+        "empty_cart": "سلة التسوق فارغة! ابدأ التسوق الآن!",
+        "order_success_title": "تم استلام طلبك بنجاح!",
+        "order_success_message": "شكراً لك على طلبك. سنقوم بمعالجته في أقرب وقت ممكن.",
+        "guest_order_note": "لمتابعة حالة طلبك، يمكنك التواصل معنا عبر الهاتف أو البريد الإلكتروني.",
+        "required_guest_info": "يرجى إدخال الاسم ورقم الهاتف."
     }
 }
