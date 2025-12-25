@@ -28,11 +28,11 @@ class GuestOrderRequest extends FormRequest
             'guest_phone'      => ['required', 'string', 'max:20'],
 
             // Address fields (for delivery orders)
-            'governorate'      => (int) request('order_type') === OrderType::DELIVERY ? ['required', 'string'] : ['nullable'],
-            'city'             => (int) request('order_type') === OrderType::DELIVERY ? ['required', 'string'] : ['nullable'],
-            'street'           => ['nullable', 'string'],
-            'building_number'  => ['nullable', 'string'],
-            'apartment'        => ['nullable', 'string'],
+            'guest_governorate'      => (int) request('order_type') === OrderType::DELIVERY ? ['required', 'string'] : ['nullable'],
+            'guest_city'             => (int) request('order_type') === OrderType::DELIVERY ? ['required', 'string'] : ['nullable'],
+            'guest_street'           => ['nullable', 'string'],
+            'guest_building_number'  => ['nullable', 'string'],
+            'guest_apartment'        => ['nullable', 'string'],
 
             // Order fields
             'subtotal'         => ['required', 'numeric'],
@@ -57,12 +57,11 @@ class GuestOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'guest_name.required'  => 'الاسم مطلوب',
-            'guest_email.required' => 'البريد الإلكتروني مطلوب',
-            'guest_email.email'    => 'البريد الإلكتروني غير صالح',
-            'guest_phone.required' => 'رقم الهاتف مطلوب',
-            'governorate.required' => 'المحافظة مطلوبة',
-            'city.required'        => 'المدينة مطلوبة',
+            'guest_name.required'        => 'الاسم مطلوب',
+            'guest_email.email'          => 'البريد الإلكتروني غير صالح',
+            'guest_phone.required'       => 'رقم الهاتف مطلوب',
+            'guest_governorate.required' => 'المحافظة مطلوبة',
+            'guest_city.required'        => 'المدينة مطلوبة',
         ];
     }
 
