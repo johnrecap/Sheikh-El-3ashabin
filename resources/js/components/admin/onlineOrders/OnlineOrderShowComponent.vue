@@ -331,14 +331,25 @@
                                 </li>
                                 <li class="flex items-center gap-2.5" v-if="orderUser.phone">
                                     <i class="lab lab-line-call-calling lab-font-size-14"></i>
-                                    <span class="text-xs">{{ orderUser.country_code + '' + orderUser.phone }}</span>
+                                    <span class="text-xs">{{ orderAddress.phone || (orderUser.country_code + '' + orderUser.phone) }}</span>
                                 </li>
                                 <li class="flex items-center gap-2.5">
                                     <i class="lab lab-line-location lab-font-size-14"></i>
                                     <span class="text-xs">
-                                        <span v-if="orderAddress.address">
-                                            {{ orderAddress.apartment ? orderAddress.apartment + ', ' : '' }} {{
-                                                orderAddress.address }}
+                                        <!-- Use full_address if available (manual entry), otherwise use address field -->
+                                        <span v-if="orderAddress.full_address">
+                                            {{ orderAddress.full_address }}
+                                        </span>
+                                        <span v-else-if="orderAddress.governorate || orderAddress.city">
+                                            {{ orderAddress.apartment ? 'شقة ' + orderAddress.apartment + '، ' : '' }}
+                                            {{ orderAddress.building_number ? 'عقار ' + orderAddress.building_number + '، ' : '' }}
+                                            {{ orderAddress.street ? orderAddress.street + '، ' : '' }}
+                                            {{ orderAddress.city ? orderAddress.city + '، ' : '' }}
+                                            {{ orderAddress.governorate || '' }}
+                                        </span>
+                                        <span v-else-if="orderAddress.address">
+                                            {{ orderAddress.apartment ? orderAddress.apartment + '، ' : '' }}
+                                            {{ orderAddress.address }}
                                         </span>
                                     </span>
                                 </li>
