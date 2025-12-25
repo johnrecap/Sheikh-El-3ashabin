@@ -219,11 +219,11 @@ export default {
                 fd.append("guest_name", this.guestInfo.name);
                 fd.append("guest_email", ""); // Email is optional
                 fd.append("guest_phone", this.guestInfo.phone);
-                fd.append("governorate", this.guestAddress.governorate);
-                fd.append("city", this.guestAddress.city);
-                fd.append("street", this.guestAddress.street || '');
-                fd.append("building_number", this.guestAddress.building_number || '');
-                fd.append("apartment", this.guestAddress.apartment || '');
+                fd.append("guest_governorate", this.guestAddress.governorate);
+                fd.append("guest_city", this.guestAddress.city);
+                fd.append("guest_street", this.guestAddress.street || '');
+                fd.append("guest_building_number", this.guestAddress.building_number || '');
+                fd.append("guest_apartment", this.guestAddress.apartment || '');
 
                 axios.post('frontend/guest-order', fd).then(orderResponse => {
                     this.loading.isActive = false;

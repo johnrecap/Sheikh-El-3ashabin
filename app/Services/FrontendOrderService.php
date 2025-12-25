@@ -246,6 +246,12 @@ class FrontendOrderService
                     'guest_email'    => $request->guest_email,
                     'guest_phone'    => $request->guest_phone,
                     'is_guest_order' => true,
+                    // Guest address fields
+                    'guest_governorate'    => $request->guest_governorate,
+                    'guest_city'           => $request->guest_city,
+                    'guest_street'         => $request->guest_street,
+                    'guest_building_number' => $request->guest_building_number,
+                    'guest_apartment'      => $request->guest_apartment,
                     'subtotal'       => $request->subtotal,
                     'tax'            => $request->tax,
                     'discount'       => $request->discount ?? 0,
