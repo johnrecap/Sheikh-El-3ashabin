@@ -26,6 +26,17 @@ export const frontendDeliveryZone = {
                 });
             });
         },
+        checkByGovernorate: function (context, governorate) {
+            return new Promise((resolve, reject) => {
+                let url = "frontend/check-delivery-zone?governorate=" + encodeURIComponent(governorate);
+                axios.get(url).then((res) => {
+                    context.commit("selectDeliveryZone", res.data.data);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
     },
     mutations: {
         selectDeliveryZone: function (state, payload) {

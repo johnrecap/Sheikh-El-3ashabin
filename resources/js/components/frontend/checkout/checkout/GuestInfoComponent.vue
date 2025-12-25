@@ -166,15 +166,23 @@ export default {
     },
     methods: {
         onGovernorateChange() {
+            if (!this.guestAddress.governorate) {
+                this.$store.dispatch('frontendCart/deliveryZone', {});
+                return;
+            }
+            
             // Check delivery zone availability when governorate changes
             this.$store.dispatch('frontendDeliveryZone/checkByGovernorate', this.guestAddress.governorate)
                 .then(res => {
-                    if (res.data.data) {
+                    if (res.data && res.data.data) {
                         this.$store.dispatch('frontendCart/deliveryZone', res.data.data);
+                    } else {
+                        this.$store.dispatch('frontendCart/deliveryZone', {});
                     }
                 })
                 .catch(err => {
                     this.$store.dispatch('frontendCart/deliveryZone', {});
+                    // Optionally show message that this governorate is not covered
                 });
         }
     },

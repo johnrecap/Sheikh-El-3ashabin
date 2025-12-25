@@ -124,7 +124,20 @@ class DeliveryZoneService
     public function deliveryZoneCheck(Request $request)
     {
         try {
-            // New Logic: Check by Address ID -> Governorate
+            // New: Check by governorate directly (for guest checkout)
+            if ($request->governorate) {
+                $deliveryZone = DeliveryZone::where('governorate_name', $request->governorate)
+                    ->where('status', Status::ACTIVE)
+                    ->first();
+
+                if ($deliveryZone) {
+                    return $deliveryZone;
+                }
+
+                throw new Exception(trans('all.message.out_of_delivery_zone'), 422);
+            }
+
+            // Existing Logic: Check by Address ID -> Governorate
             // Check for 'id' (from frontend query param) OR 'address_id'
             $addressId = $request->address_id ?? $request->id;
 
