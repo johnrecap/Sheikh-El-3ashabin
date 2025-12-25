@@ -208,7 +208,7 @@ export default {
             // Guest checkout flow
             if (!this.isLoggedIn) {
                 fd.append("guest_name", this.guestInfo.name);
-                fd.append("guest_email", this.guestInfo.email);
+                fd.append("guest_email", ""); // Email is optional
                 fd.append("guest_phone", this.guestInfo.phone);
                 fd.append("governorate", this.guestAddress.governorate);
                 fd.append("city", this.guestAddress.city);

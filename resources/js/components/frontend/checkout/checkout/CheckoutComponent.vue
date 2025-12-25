@@ -231,7 +231,7 @@ export default {
                 const guestInfo = this.$store.getters['frontendCart/guestInfo'];
                 const guestAddress = this.$store.getters['frontendCart/guestAddress'];
                 
-                if (!guestInfo.name || !guestInfo.email || !guestInfo.phone) {
+                if (!guestInfo.name || !guestInfo.phone) {
                     alertService.error(this.$t("message.required_guest_info"));
                     return;
                 }

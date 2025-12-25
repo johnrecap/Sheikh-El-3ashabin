@@ -176,7 +176,7 @@ return [
         "the_product_can_not_be_deleted"   => "The product cannot be deleted",
         'coupon_limit_exceeded'            => 'The coupon limit has been exceeded',
         // Guest Checkout Messages
-        'required_guest_info'              => 'Please enter guest information (name, email, and phone).',
+        'required_guest_info'              => 'Please enter your name and phone number.',
         'order_success_title'              => 'Your Order Has Been Received!',
         'order_success_message'            => 'Thank you for your order. We will process it as soon as possible.',
         'guest_order_note'                 => 'To track your order status, you can contact us via phone or email.'

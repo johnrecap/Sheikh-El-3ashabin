@@ -186,7 +186,7 @@ return [
         "the_product_can_not_be_deleted"   => "لا يمكن حذف المنتج.",
         'coupon_limit_exceeded'            => 'تم تجاوز حد القسيمة',
         // Guest Checkout Messages
-        'required_guest_info'              => 'يرجى إدخال معلومات الضيف (الاسم والبريد الإلكتروني والهاتف).',
+        'required_guest_info'              => 'يرجى إدخال الاسم ورقم الهاتف.',
         'order_success_title'              => 'تم استلام طلبك بنجاح!',
         'order_success_message'            => 'شكراً لك على طلبك. سنقوم بمعالجته في أقرب وقت ممكن.',
         'guest_order_note'                 => 'لمتابعة حالة طلبك، يمكنك التواصل معنا عبر الهاتف أو البريد الإلكتروني.'

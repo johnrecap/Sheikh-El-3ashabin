@@ -17,18 +17,6 @@
                 <small class="text-red-500" v-if="errors.guest_name">{{ errors.guest_name[0] }}</small>
             </div>
 
-            <!-- Guest Email -->
-            <div>
-                <label class="text-xs leading-6 capitalize mb-1 text-heading block">
-                    {{ $t('label.email') }} *
-                </label>
-                <input type="email" v-model="guestInfo.email"
-                    :placeholder="$t('label.enter_email')"
-                    :class="errors.guest_email ? 'border-red-500' : ''"
-                    class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
-                <small class="text-red-500" v-if="errors.guest_email">{{ errors.guest_email[0] }}</small>
-            </div>
-
             <!-- Guest Phone -->
             <div>
                 <label class="text-xs leading-6 capitalize mb-1 text-heading block">
@@ -123,7 +111,6 @@ export default {
         return {
             guestInfo: {
                 name: '',
-                email: '',
                 phone: ''
             },
             guestAddress: {

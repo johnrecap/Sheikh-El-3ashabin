@@ -22,9 +22,9 @@ class GuestOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Guest information (required)
+            // Guest information (name and phone required, email optional)
             'guest_name'       => ['required', 'string', 'max:100'],
-            'guest_email'      => ['required', 'email', 'max:100'],
+            'guest_email'      => ['nullable', 'email', 'max:100'],
             'guest_phone'      => ['required', 'string', 'max:20'],
 
             // Address fields (for delivery orders)

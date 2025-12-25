@@ -24,7 +24,6 @@ export const frontendCart = {
         // Guest checkout fields
         guestInfo: {
             name: '',
-            email: '',
             phone: ''
         },
         guestAddress: {
@@ -368,7 +367,7 @@ export const frontendCart = {
             state.totalTax = 0;
             state.deliveryCharge = 0;
             // Reset guest info
-            state.guestInfo = { name: '', email: '', phone: '' };
+            state.guestInfo = { name: '', phone: '' };
             state.guestAddress = { governorate: '', city: '', street: '', building_number: '', apartment: '' };
         }
     },
