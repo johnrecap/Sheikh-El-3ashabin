@@ -216,7 +216,7 @@ export default {
                 fd.append("building_number", this.guestAddress.building_number || '');
                 fd.append("apartment", this.guestAddress.apartment || '');
 
-                axios.post('/api/frontend/guest-order', fd).then(orderResponse => {
+                axios.post('frontend/guest-order', fd).then(orderResponse => {
                     this.loading.isActive = false;
                     this.$store.dispatch('frontendCart/resetCart');
                     let paymentSlug = Object.keys(this.paymentMethod).length > 0 ? this.paymentMethod.slug : '';
