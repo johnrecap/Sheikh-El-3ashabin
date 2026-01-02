@@ -1,0 +1,193 @@
+{
+  "public/themes/default/fonts/fontawesome/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-b5h44beW.ttf",
+    "src": "public/themes/default/fonts/fontawesome/fa-brands-400.ttf"
+  },
+  "public/themes/default/fonts/fontawesome/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-PHGSgaPa.woff2",
+    "src": "public/themes/default/fonts/fontawesome/fa-brands-400.woff2"
+  },
+  "public/themes/default/fonts/fontawesome/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-Bu3ByYRj.ttf",
+    "src": "public/themes/default/fonts/fontawesome/fa-regular-400.ttf"
+  },
+  "public/themes/default/fonts/fontawesome/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-B6Fa5bxc.woff2",
+    "src": "public/themes/default/fonts/fontawesome/fa-regular-400.woff2"
+  },
+  "public/themes/default/fonts/fontawesome/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-Dysk51tl.ttf",
+    "src": "public/themes/default/fonts/fontawesome/fa-solid-900.ttf"
+  },
+  "public/themes/default/fonts/fontawesome/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-frKhXEoZ.woff2",
+    "src": "public/themes/default/fonts/fontawesome/fa-solid-900.woff2"
+  },
+  "public/themes/default/fonts/fontawesome/fa-v4compatibility.ttf": {
+    "file": "assets/fa-v4compatibility--wSojPnI.ttf",
+    "src": "public/themes/default/fonts/fontawesome/fa-v4compatibility.ttf"
+  },
+  "public/themes/default/fonts/fontawesome/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility-BtDUTAKp.woff2",
+    "src": "public/themes/default/fonts/fontawesome/fa-v4compatibility.woff2"
+  },
+  "public/themes/default/fonts/iconly/lab.eot": {
+    "file": "assets/lab-BhBuUIue.eot",
+    "src": "public/themes/default/fonts/iconly/lab.eot"
+  },
+  "public/themes/default/fonts/iconly/lab.svg": {
+    "file": "assets/lab-D-jYhBv1.svg",
+    "src": "public/themes/default/fonts/iconly/lab.svg"
+  },
+  "public/themes/default/fonts/iconly/lab.ttf": {
+    "file": "assets/lab-CkIWRk9U.ttf",
+    "src": "public/themes/default/fonts/iconly/lab.ttf"
+  },
+  "public/themes/default/fonts/iconly/lab.woff": {
+    "file": "assets/lab-_9cWfa5l.woff",
+    "src": "public/themes/default/fonts/iconly/lab.woff"
+  },
+  "public/themes/default/fonts/iconly/lab.woff2": {
+    "file": "assets/lab-BQCRrqWj.woff2",
+    "src": "public/themes/default/fonts/iconly/lab.woff2"
+  },
+  "public/themes/default/fonts/public/PublicSans-Black.ttf": {
+    "file": "assets/PublicSans-Black-BmpDQbLX.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-Black.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-Bold.ttf": {
+    "file": "assets/PublicSans-Bold-DtizmBIU.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-Bold.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-ExtraBold.ttf": {
+    "file": "assets/PublicSans-ExtraBold-BgANcyhT.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-ExtraBold.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-ExtraLight.ttf": {
+    "file": "assets/PublicSans-ExtraLight-Dl3aZ_Gl.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-ExtraLight.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-Light.ttf": {
+    "file": "assets/PublicSans-Light-YsLIk0LD.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-Light.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-Medium.ttf": {
+    "file": "assets/PublicSans-Medium-CLY3iEbp.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-Medium.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-Regular.ttf": {
+    "file": "assets/PublicSans-Regular-TAvWwBTz.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-Regular.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-SemiBold.ttf": {
+    "file": "assets/PublicSans-SemiBold-DWl9zOoL.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-SemiBold.ttf"
+  },
+  "public/themes/default/fonts/public/PublicSans-Thin.ttf": {
+    "file": "assets/PublicSans-Thin-DKkodZUq.ttf",
+    "src": "public/themes/default/fonts/public/PublicSans-Thin.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-Black.ttf": {
+    "file": "assets/Urbanist-Black-Qa_P-ife.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-Black.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-Bold.ttf": {
+    "file": "assets/Urbanist-Bold-B_ceWlmW.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-Bold.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-ExtraBold.ttf": {
+    "file": "assets/Urbanist-ExtraBold-BJowjyBF.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-ExtraBold.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-ExtraLight.ttf": {
+    "file": "assets/Urbanist-ExtraLight-CYFVwOZb.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-ExtraLight.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-Light.ttf": {
+    "file": "assets/Urbanist-Light-m2aUXxyI.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-Light.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-Medium.ttf": {
+    "file": "assets/Urbanist-Medium-B6s8UOor.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-Medium.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-Regular.ttf": {
+    "file": "assets/Urbanist-Regular-CLPaxXIZ.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-Regular.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-SemiBold.ttf": {
+    "file": "assets/Urbanist-SemiBold-xlTPiYPA.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-SemiBold.ttf"
+  },
+  "public/themes/default/fonts/urbanist/Urbanist-Thin.ttf": {
+    "file": "assets/Urbanist-Thin-DbD0XHJ3.ttf",
+    "src": "public/themes/default/fonts/urbanist/Urbanist-Thin.ttf"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-ClWa--BN.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/chatfile.css": {
+    "file": "assets/chatfile-D8uzKKtH.css",
+    "src": "resources/css/chatfile.css",
+    "isEntry": true
+  },
+  "resources/css/custom.css": {
+    "file": "assets/custom-Bu1swoyx.css",
+    "src": "resources/css/custom.css",
+    "isEntry": true
+  },
+  "resources/css/navbar.css": {
+    "file": "assets/navbar-SZUQxgTM.css",
+    "src": "resources/css/navbar.css",
+    "isEntry": true
+  },
+  "resources/css/tailwind.css": {
+    "file": "assets/tailwind-DaJKK-y8.css",
+    "src": "resources/css/tailwind.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DENxs0tE.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app-DDr7JfmD.css"
+    ],
+    "assets": [
+      "assets/Urbanist-Thin-DbD0XHJ3.ttf",
+      "assets/Urbanist-ExtraLight-CYFVwOZb.ttf",
+      "assets/Urbanist-Light-m2aUXxyI.ttf",
+      "assets/Urbanist-Regular-CLPaxXIZ.ttf",
+      "assets/Urbanist-Medium-B6s8UOor.ttf",
+      "assets/Urbanist-SemiBold-xlTPiYPA.ttf",
+      "assets/Urbanist-Bold-B_ceWlmW.ttf",
+      "assets/Urbanist-ExtraBold-BJowjyBF.ttf",
+      "assets/Urbanist-Black-Qa_P-ife.ttf",
+      "assets/lab-BhBuUIue.eot",
+      "assets/lab-BQCRrqWj.woff2",
+      "assets/lab-_9cWfa5l.woff",
+      "assets/lab-CkIWRk9U.ttf",
+      "assets/lab-D-jYhBv1.svg",
+      "assets/PublicSans-Thin-DKkodZUq.ttf",
+      "assets/PublicSans-ExtraLight-Dl3aZ_Gl.ttf",
+      "assets/PublicSans-Light-YsLIk0LD.ttf",
+      "assets/PublicSans-Regular-TAvWwBTz.ttf",
+      "assets/PublicSans-Medium-CLY3iEbp.ttf",
+      "assets/PublicSans-SemiBold-DWl9zOoL.ttf",
+      "assets/PublicSans-Bold-DtizmBIU.ttf",
+      "assets/PublicSans-ExtraBold-BgANcyhT.ttf",
+      "assets/PublicSans-Black-BmpDQbLX.ttf",
+      "assets/fa-brands-400-PHGSgaPa.woff2",
+      "assets/fa-brands-400-b5h44beW.ttf",
+      "assets/fa-regular-400-B6Fa5bxc.woff2",
+      "assets/fa-regular-400-Bu3ByYRj.ttf",
+      "assets/fa-solid-900-frKhXEoZ.woff2",
+      "assets/fa-solid-900-Dysk51tl.ttf",
+      "assets/fa-v4compatibility-BtDUTAKp.woff2",
+      "assets/fa-v4compatibility--wSojPnI.ttf"
+    ]
+  }
+}
