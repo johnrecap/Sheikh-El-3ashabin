@@ -187,6 +187,9 @@ class FrontendOrderService
                             'building_number' => $address->building_number,
                             'apartment'       => $address->apartment,
                             'full_address'    => $address->full_address,
+                            'address'         => $address->address ?? $address->full_address,
+                            'latitude'        => $address->latitude,
+                            'longitude'       => $address->longitude,
                             'phone'           => $address->phone
                         ]);
                     }
