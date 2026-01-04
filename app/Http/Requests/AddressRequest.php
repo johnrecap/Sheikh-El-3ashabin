@@ -31,7 +31,8 @@ class AddressRequest extends FormRequest
             'street'          => ['nullable', 'string', 'max:200'],
             'building_number' => ['nullable', 'string', 'max:50'],
             'apartment'       => ['nullable', 'string', 'max:200'],
-            'phone'           => ['required', 'string', 'max:20'],
+            'phone'           => ['required', 'string', 'size:11', 'regex:/^[0-9]+$/'],
+            'landline'        => ['nullable', 'string', 'max:20'],
         ];
     }
 }

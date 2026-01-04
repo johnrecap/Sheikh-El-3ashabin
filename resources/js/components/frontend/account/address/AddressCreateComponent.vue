@@ -87,14 +87,33 @@
                     <!-- حقل الهاتف -->
                     <div class="mb-4">
                         <label class="text-xs leading-6 capitalize mb-1 text-heading block">
-                            {{ $t('label.phone') }} *
+                            {{ $t('label.phone') }} * <span class="text-gray-500">(11 {{ $t('label.digits') }})</span>
                         </label>
                         <input type="text" v-model="props.form.phone"
                             :placeholder="$t('label.enter_phone')"
+                            maxlength="11"
+                            @input="validatePhone"
                             :class="errors.phone ? 'invalid border-red-500' : ''"
                             class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
                         <small class="db-field-alert text-red-500" v-if="errors.phone">
                             {{ errors.phone[0] }}
+                        </small>
+                        <small class="text-gray-500" v-if="props.form.phone && props.form.phone.length !== 11">
+                            {{ props.form.phone.length }}/11
+                        </small>
+                    </div>
+
+                    <!-- حقل الهاتف الأرضي (اختياري) -->
+                    <div class="mb-4">
+                        <label class="text-xs leading-6 capitalize mb-1 text-heading block">
+                            {{ $t('label.landline') }} <span class="text-gray-400">({{ $t('label.optional') }})</span>
+                        </label>
+                        <input type="text" v-model="props.form.landline"
+                            :placeholder="$t('label.enter_landline')"
+                            :class="errors.landline ? 'invalid border-red-500' : ''"
+                            class="h-12 w-full rounded-lg border py-2 px-3 placeholder:text-xs border-[#D9DBE9]">
+                        <small class="db-field-alert text-red-500" v-if="errors.landline">
+                            {{ errors.landline[0] }}
                         </small>
                     </div>
 
@@ -227,6 +246,7 @@ export default {
                 building_number: "",
                 apartment: "",
                 phone: "",
+                landline: "",
                 label: "",
             };
             this.$props.props.status = false;
@@ -249,6 +269,7 @@ export default {
                         building_number: "",
                         apartment: "",
                         phone: "",
+                        landline: "",
                         label: "",
                     };
                     this.props.status = false;
@@ -262,6 +283,10 @@ export default {
                 this.loading.isActive = false;
                 alertService.error(err);
             }
+        },
+        validatePhone: function() {
+            // Remove non-numeric characters
+            this.props.form.phone = this.props.form.phone.replace(/[^0-9]/g, '');
         },
     }
 }

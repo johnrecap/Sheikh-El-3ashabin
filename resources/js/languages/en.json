@@ -716,7 +716,20 @@
                 "use_map": "Use Map",
                 "manual_entry": "Manual Entry",
                 "full_address": "Full Address",
-                "enter_full_address": "Enter full address (Area - Street - Nearest landmark)"
+                "enter_full_address": "Enter full address (Area - Street - Nearest landmark)",
+                "governorate": "Governorate",
+                "select_governorate": "Select Governorate",
+                "enter_city": "Enter city or district",
+                "street": "Street",
+                "enter_street": "Enter street name",
+                "building_number": "Building / House Number",
+                "enter_building_number": "Enter building or house number",
+                "enter_apartment": "Example: Apt 5, 3rd floor",
+                "enter_phone": "Enter phone number",
+                "landline": "Landline",
+                "enter_landline": "Enter landline number",
+                "digits": "digits",
+                "optional": "Optional"
         },
         "button": {
                 "add": "Add",

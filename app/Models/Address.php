@@ -19,7 +19,8 @@ class Address extends Model
         'building_number',
         'apartment',
         'full_address',
-        'phone'
+        'phone',
+        'landline'
     ];
 
     protected $casts = [
@@ -33,6 +34,7 @@ class Address extends Model
         'apartment'       => 'string',
         'full_address'    => 'string',
         'phone'           => 'string',
+        'landline'        => 'string',
     ];
 
     protected static function boot()

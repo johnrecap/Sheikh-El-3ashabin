@@ -726,7 +726,11 @@
         "enter_apartment": "مثال: شقة 5، الطابق الثالث",
         "enter_full_name": "أدخل الاسم الثلاثي",
         "enter_phone": "أدخل رقم الهاتف",
-        "guest_info": "معلومات الضيف"
+        "guest_info": "معلومات الضيف",
+        "landline": "الهاتف الأرضي",
+        "enter_landline": "أدخل رقم الهاتف الأرضي",
+        "digits": "رقم",
+        "optional": "اختياري"
     },
     "button": {
         "add": "إضافة",

@@ -23,7 +23,8 @@ class OrderAddress extends Model
         'phone',
         'address',
         'latitude',
-        'longitude'
+        'longitude',
+        'landline'
     ];
 
     protected $casts = [
