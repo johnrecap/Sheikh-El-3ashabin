@@ -68,38 +68,6 @@
                     {{ $t('label.sign_up') }}
                 </router-link>
             </div>
-
-            <div v-if="demo === 'true' || demo === 'TRUE' || demo === 'True' || demo === '1' || demo === 1"
-                class="mt-6">
-                <h2 class="mb-6 text-center text-lg font-medium text-heading">{{ $t('message.for_quick_demo') }}</h2>
-                <nav class="grid grid-cols-2 gap-3">
-                    <button type="button" @click.prevent="setupCredit('admin')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center field-title capitalize text-white bg-orange-500"
-                        id="adminClick">
-                        {{ $t('label.admin') }}
-                    </button>
-                    <button type="button" @click.prevent="setupCredit('customer')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center field-title capitalize text-white bg-emerald-500"
-                        id="customerClick">
-                        {{ $t('label.customer') }}
-                    </button>
-                    <button type="button" @click.prevent="setupCredit('manager')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center field-title capitalize text-white bg-sky-600"
-                        id="branchManagerClick">
-                        {{ $t('label.manager') }}
-                    </button>
-                    <button type="button" @click.prevent="setupCredit('posOperator')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center field-title capitalize text-white bg-purple-500"
-                        id="posOperatorClick">
-                        {{ $t('label.pos_operator') }}
-                    </button>
-                    <button type="button" @click.prevent="setupCredit('deliveryBoy')"
-                        class="click-to-prop w-full h-10 leading-10 rounded-lg text-center field-title capitalize text-white bg-pink-500"
-                        id="deliveryBoyClick">
-                        {{ $t('label.delivery_boy') }}
-                    </button>
-                </nav>
-            </div>
         </form>
     </div>
 </template>
@@ -133,7 +101,6 @@ export default {
             errors: {},
             permissions: {},
             firstMenu: null,
-            demo: ENV.DEMO,
             APP_URL: ENV.API_URL,
             toggleValue: false,
             inputLabel: this.$t('label.email'),
@@ -217,24 +184,6 @@ export default {
         },
         close: function () {
             this.errors = {}
-        },
-        setupCredit: function (e) {
-            if (e === 'admin') {
-                this.form.email = 'admin@example.com';
-                this.form.password = '123456';
-            } else if (e === 'customer') {
-                this.form.email = 'customer@example.com';
-                this.form.password = '123456';
-            } else if (e === 'manager') {
-                this.form.email = 'manager@example.com';
-                this.form.password = '123456';
-            } else if (e === 'posOperator') {
-                this.form.email = 'posoperator@example.com';
-                this.form.password = '123456';
-            } else if (e === 'deliveryBoy') {
-                this.form.email = 'deliveryboy@example.com';
-                this.form.password = '123456';
-            }
         }
     }
 }
