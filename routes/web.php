@@ -16,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('images/payment-gateways/{filename}', function ($filename) {
+    $path = public_path('images/payment-gateways/' . $filename);
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    return response()->file($path);
+});
+
 Route::prefix('install')->name('installer.')->middleware(['web'])->group(function () {
     Route::get('/', [InstallerController::class, 'index'])->name('index');
     Route::get('/requirement', [InstallerController::class, 'requirement'])->name('requirement');
