@@ -33,8 +33,9 @@ class PaymentGateway extends Model implements HasMedia
 
     public function getImageAttribute(): string
     {
-        if (!empty($this->getFirstMediaUrl('payment-gateway'))) {
-            return asset($this->getFirstMediaUrl('payment-gateway'));
+        $mediaUrl = $this->getFirstMediaUrl('payment-gateway');
+        if (!empty($mediaUrl)) {
+            return $mediaUrl;
         }
         return asset('images/default/payment-gateway/payment-gateway.png');
     }
