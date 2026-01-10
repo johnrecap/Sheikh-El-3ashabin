@@ -544,33 +544,36 @@ export default {
         list: function () {
             this.loading.isActive = true;
             this.$store.dispatch('site/lists').then(res => {
+                // Add null check to prevent crash
+                const data = res.data?.data || res.data || {};
                 this.form = {
-                    site_date_format: res.data.data.site_date_format,
-                    site_time_format: res.data.data.site_time_format,
-                    site_default_timezone: res.data.data.site_default_timezone,
-                    site_default_currency: res.data.data.site_default_currency,
-                    site_default_currency_symbol: res.data.data.site_default_currency_symbol,
-                    site_default_language: res.data.data.site_default_language,
-                    site_language_switch: res.data.data.site_language_switch,
-                    site_pick_up: res.data.data.site_pick_up,
-                    site_app_debug: res.data.data.site_app_debug,
-                    site_currency_position: res.data.data.site_currency_position,
-                    site_email_verification: res.data.data.site_email_verification,
-                    site_phone_verification: res.data.data.site_phone_verification,
-                    site_digit_after_decimal_point: res.data.data.site_digit_after_decimal_point,
-                    site_cash_on_delivery: res.data.data.site_cash_on_delivery,
-                    site_android_app_link: res.data.data.site_android_app_link,
-                    site_ios_app_link: res.data.data.site_ios_app_link,
-                    site_copyright: res.data.data.site_copyright,
-                    site_google_map_key: res.data.data.site_google_map_key,
-                    site_online_payment_gateway: res.data.data.site_online_payment_gateway,
-                    site_default_sms_gateway: res.data.data.site_default_sms_gateway === 0 ? null : res.data.data.site_default_sms_gateway,
-                    site_non_purchase_product_maximum_quantity: res.data.data.site_non_purchase_product_maximum_quantity,
-                    site_is_return_product_price_add_to_credit: res.data.data.site_is_return_product_price_add_to_credit,
+                    site_date_format: data.site_date_format || null,
+                    site_time_format: data.site_time_format || null,
+                    site_default_timezone: data.site_default_timezone || null,
+                    site_default_currency: data.site_default_currency || null,
+                    site_default_currency_symbol: data.site_default_currency_symbol || null,
+                    site_default_language: data.site_default_language || null,
+                    site_language_switch: data.site_language_switch || null,
+                    site_pick_up: data.site_pick_up || null,
+                    site_app_debug: data.site_app_debug || null,
+                    site_currency_position: data.site_currency_position || null,
+                    site_email_verification: data.site_email_verification || null,
+                    site_phone_verification: data.site_phone_verification || null,
+                    site_digit_after_decimal_point: data.site_digit_after_decimal_point || null,
+                    site_cash_on_delivery: data.site_cash_on_delivery || null,
+                    site_android_app_link: data.site_android_app_link || null,
+                    site_ios_app_link: data.site_ios_app_link || null,
+                    site_copyright: data.site_copyright || null,
+                    site_google_map_key: data.site_google_map_key || null,
+                    site_online_payment_gateway: data.site_online_payment_gateway || null,
+                    site_default_sms_gateway: data.site_default_sms_gateway === 0 ? null : data.site_default_sms_gateway,
+                    site_non_purchase_product_maximum_quantity: data.site_non_purchase_product_maximum_quantity || null,
+                    site_is_return_product_price_add_to_credit: data.site_is_return_product_price_add_to_credit || null,
                 }
                 this.loading.isActive = false;
             }).catch((err) => {
                 this.loading.isActive = false;
+                console.error('Error loading site settings:', err);
             });
 
         },
