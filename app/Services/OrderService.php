@@ -262,6 +262,9 @@ class OrderService
     public function show(Order $order, $auth = false): Order|array
     {
         try {
+            // Load address relationship to display in admin dashboard
+            $order->load('address');
+            
             if ($auth) {
                 if ($order->user_id == Auth::user()->id) {
                     return $order;
